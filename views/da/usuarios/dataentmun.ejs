@@ -1,0 +1,130 @@
+<%- include('../includes/header') -%>
+<% var rol %> 
+    <section class="content">
+        <div class="titulo_pagina row align-items-center">
+            <div class="col-lg-2">
+                <div class="btn_close d-md-none d-lg-block">
+                    <button type="button" class="close_sidebar">
+                        <i class="bi bi-arrows-fullscreen maximize" id="texto_button_sidebar">&nbsp;Maximizar</i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h4>
+                    <%= tittle %>
+                </h4>
+            </div>
+            <div class="col-lg-6 d-md-none d-lg-block">
+                <div class="bell_notificaciones"><a href="/da/notificaciones"><i class="bi bi-bell-fill"></i></a></div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary  dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if(user) {%>
+                            <p class="nombre_entidad_activa">
+                            <%= user.NOMBRE %> <%= user.APELLIDO %>
+                            </p><% }%>
+                        <br>
+                        <p class="cambiar"><%= user.ENTIDAD %></p>
+           
+              
+                </div>
+            </div>
+        </div>
+        <div class="section_form fluid-container">
+            <div class=" container_reporte_form">
+                <div class="row buscar mb-1">
+                
+                    <form action="/da/controlentmun"  method="post" autocomplete="off" class="ps-5 pe-5"> 
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="number" value="<%= entmunver.id %>" hidden name="id">
+                                <input type="text" value="<%= responuser.id_st_user %>" hidden name="id_st_user">
+                                <label for="">Nombre de la entidad municipal</label>
+                             
+                                <input type="text" name="NOM_MUN" class="form-control mb-2" value="<%= entmunver.NOM_MUN %> " required>
+                    
+                                <label for="">Nombre del responsable</label>
+                       
+                                <input type="text" class="form-control mb-2" value="<%= responuser.NOMBRE %>" name="NOMBRE" required>
+                                <label for="">Email</label>
+                                <input type="text" name="EMAIL" class="form-control mb-2" value="<%= entmunver.EMAIL%>" required>
+                                <label for="">Tipo de identificación</label>
+                                
+                                <select name="TIP_IDEN" id="" CLASS="form-select">
+                                    <% listatipoide.forEach((lide)=> { %> 
+
+                                    <option value="<%= lide.ID_RL_TIP_IDE %>"  <% if(lide.ID_RL_TIP_IDE == responuser.TIP_IDEN){ %> selected="selected" <% } %>><%= lide.DESC %></option>
+                                    <% }) %> 
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+
+                                <label for="">Municipio</label>
+                                <input type="text" name="mimuni" class="form-control mb-2" value="<%= mimuni %> " readonly="readonly">
+                           
+                                <label for="">Apellido del responsable</label>
+                                <input type="text" name="APELLIDO" class="form-control mb-2" value="<%= responuser.APELLIDO %> " required>
+                           
+                                <label for="">Telefono de contacto:</label>
+                                <input type="text" name="TEL" class="form-control mb-2" value="<%= entmunver.TELEFONO%>" required>
+                                <label for="">Numero de identificación</label>
+                                <input type="text" name="CEDULA" class="form-control mb-2" value="<%= responuser.CEDULA %>" required>
+                      
+                            </div>
+                        </div>
+
+                        <div class="row">
+                     
+                            <div class="col-lg-6">
+                                <label for="">Contraseña:</label>
+                                <input type="password" class="form-control mb-2" value="" name="PASS">
+                                
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-4"></div>
+                            
+                            <div class="col-4">
+                                <button type="submit" name="updateuser" value="1" class="btn_green">Actualizar</button>
+                                <button  onclick="confirmarentmun(<%= entmunver.id %>)" type="button" name="deleteuser" value="0" class="btn_red_wide" >Eliminar</button>
+                            </div>
+                            <div class="col-4 align-content-end">      </div>
+                       
+                            
+                            
+                        </div>
+                    </form>
+
+
+
+
+                </div>
+  
+
+            </div>
+        </div>
+    </section>
+
+
+
+<script>
+    function confirmarentmun(id){
+            Swal.fire({
+    title: 'Desea eliminar la Entidad Municipal?',
+    text: "Este cambio no se puede revertir y al eliminar una entidad municipal todas las UPGD y usuarios asociados seran eliminados permanentemente!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3c773c',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+    if (result.isConfirmed) {
+    
+        window.location='/da/borraentmun/'+id;
+      
+    
+    
+    }
+    })
+        }
+    </script>
+    <%- include('../includes/footer') -%>

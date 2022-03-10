@@ -1,0 +1,45 @@
+<% if (idepac) { %>
+<div class="cuerpo_dashboard">
+    <h5>Reportes SIVESPA</h5>
+    <p class="textos_black">Cantidad todal de reportes realizados: <%= conactual.length %></p>
+        <div class="row titulo_tabla">
+            <div class="col-lg-3">Nro de Documento</div>
+            <div class="col-lg-2">Fecha</div>
+            <div class="col-lg-2">Nombre</div>
+            <div class="col-lg-2">Spa</div>
+            <div class="col-lg-2">Ubicacion</div>
+            <div class="col-lg-1"></div>
+        </div>
+
+        
+        <% for (j=0; j<conactual.length ; j++) {%>
+           
+          
+        <div class="row crud_user text-capitalize">
+            <div class="col-3 border border-secondary align-items-center d-flex">
+                <%= idepac[j].NUM_IDE %>
+            </div>
+            <div class="col-2 border border-secondary align-items-center d-flex">
+                <%= infogen[j].FEC_NOT.toISOString().slice(0,10) %>
+            </div>
+            <div class="col-2 border border-secondary align-items-center d-flex">
+                <%= idepac[j].PRI_NOM %> <%= idepac[j].SEG_NOM %> <%= idepac[j].PRI_APE %> <%= idepac[j].SEG_APE %>
+            </div>
+            <div class="col-2 border border-secondary align-items-center d-flex">
+                <% sustancia=nomspa.filter(noms=> noms.id_rl_lista_spa == conactual[j].ID_RL_LISTA_SPA) %>
+                <%= sustancia[0].SUSTANCIA %>
+            </div>
+            <div class="col-2 border border-secondary align-items-center d-flex">
+                <% muniuser= municipios.filter(nmun=>nmun.CODCENTROPOBLADO == idepac[j].ID_RL_DIVIPOLA) %> 
+                <%= muniuser[0].NOMMUNIPIO %>
+            </div>
+            <div class="col-1 border border-secondary align-items-center d-flex p-1 justify-content-center">
+                <a href="/da/verreporte/<%= idepac[j].id_reporte %>"  class="btn_edit_ver btn_green btn_icons"><i class="bi bi-eye-fill"></i></a>
+                <a onclick="confirmarreporte('<%= idepac[j].id_reporte %>')" class="btn_red btn_icons"><i class="bi bi-x-octagon-fill"></i></a>
+            </div>
+        </div>
+        <% } %>
+</div>
+<% } else {%>
+    <H5>Aun no cuentas con reportes hecho por parte de tus usuarios</H5>
+    <% } %>

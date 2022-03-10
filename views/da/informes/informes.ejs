@@ -1,0 +1,130 @@
+<%- include('../includes/header') -%>
+    <section class="content">
+        <div class="titulo_pagina row align-items-center">
+            <div class="col-lg-2">
+                <div class="btn_close d-md-none d-lg-block">
+                    <button type="button" class="close_sidebar">
+                        <i class="bi bi-arrows-fullscreen maximize" id="texto_button_sidebar">&nbsp;Maximizar</i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h4>
+                    <%= tittle%>
+                </h4>
+            </div>
+            <div class="col-lg-6 d-md-none d-lg-block">
+                <div class="bell_notificaciones"><a href="/da/notificaciones"><i class="bi bi-bell-fill"></i></a></div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary  dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if(user) {%>
+                            <p class="nombre_entidad_activa">
+                            <%= user.NOMBRE %> <%= user.APELLIDO %>
+                            </p><% }%>
+                        <br>
+                        <p class="cambiar"><%= user.ENTIDAD %></p>
+           
+              
+                </div>
+            </div>
+        </div>
+        <div class="section_form fluid-container">
+            <div class="container_reporte_form">
+                <div class="row buscar">
+                    <div class="row section_btn_dashboard_individual">
+                        <div class="col-lg-3 col-xs-12">
+                            <a href="/da/nuevo_informe">
+                                <div class="card card_dashboard_individual">
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.33 21.33"><defs><style>.cls-1{fill:#fff;}</style></defs><title>informe</title><path class="cls-1" d="M13.76,2.2H11.93V1.57A1.27,1.27,0,0,0,10.67.3,1.29,1.29,0,0,0,9.39,1.57V2.2H7.57V4.27h6.19Z"/><path class="cls-1" d="M15,2.71V5.48H6.35V2.71H3.68V21h14V2.71Zm-.52,14.58H6.87V16.07h7.59Zm0-2.68H6.87V13.4h7.59Zm0-2.67H6.87V10.73h7.59Zm0-2.67H6.87V8.05h7.59Z"/></svg>
+                                            </div>
+                                            <div class="col-8">
+                                                <h5 class="card-title align-self-center">Crear Informe</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-9 col-xs-12">
+                         
+                        </div>
+                   
+                    </div>
+                    <div class="row">
+                        <form action="/da/informes" method="post" autocomplete="off">
+                            <div class="row">
+                               
+                                <div class="col-lg-8">
+                                    <label for="fechaini">Desde:</label>
+                                    <input type="date" name="dateini" class="form-control">
+                                    <label for="fechaend">Hasta:</label>
+                                    <input type="date" name="dateend" class="form-control">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="municipio">Municipio:</label>
+                                    <input list="municipios" type="text" class="form-control" name="muni" <% if(user.TIP_USER==3 || user.TIP_USER==2){ %> readonly="readonly" value="<%= user.COD_MUN %>" <% }%> >
+                                    <datalist id="municipios">
+                                        <% listamunicipios.forEach((dm)=>{ %> 
+                                            <option value="<%= dm.CODMUNIC %>"><%= dm.NOMMUNIPIO %> </option>
+                                            <% }) %> 
+                                    </datalist>
+                                    <button type="submit" class="form-control btn_green_s btn mt-4">Aplicar filtro <i class="bi bi-search "></i></button>
+                                
+
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="row informes">
+                    <div class="row">
+                        <h3>Listado de informes:</h3>
+                    </div>
+                    <% informes.forEach((datainfor) => { %> 
+
+                    <div class="col-4 col-xs-12">
+                        <div class="card card_informes">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= datainfor.titulo %> </h5>
+                                <p class="card-text"><% resumen= datainfor.contenido%> <%= resumen.substr(1,50) %></p>
+                                <button class="btn_green" role="link" onclick="location.href='informes/verinforme/<%= datainfor.id %>';">Leer</button>
+                                <button class="btn_green" role="link" onclick="location.href='informes/editarinforme/<%= datainfor.id %>';">Editar</button>
+                                <button class="btn_red_wide" role="link" onclick="confirmar(<%= datainfor.id %>);">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %> 
+                    
+                </div>
+            </div>
+    </section>
+
+
+    <script>
+        function confirmar(id){
+            Swal.fire({
+  title: 'Desea eliminar el informe',
+  text: "Este cambio no se puede revertir!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3c773c',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, eliminar'
+}).then((result) => {
+  if (result.isConfirmed) {
+    
+        window.location='/da/borrarinforme/'+id;
+      
+   
+    
+  }
+})
+        }
+    </script>
+    <%- include('../includes/footer') -%>

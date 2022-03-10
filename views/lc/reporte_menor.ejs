@@ -1,0 +1,66 @@
+<%- include ('includes/header') -%>
+    <div class="container ps-lg-5 pe-lg-5 mt-lg-5 reporte">
+        <div id="reporte_ayuda" class="mb-5"></div>
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 col-xs-12 shadow ps-lg-5 pe-lg-5 mt-lg-55 pb-4 pt-4">
+                <h4>Planes de acción y líneas de atención</h4>
+                <p>
+
+                </p>
+                <form action="/lc/guia" autocomplete="off" id="form" method="post">
+                    <div class="row mt-4">
+                        <div class="col-lg-6">
+                            <label for="" class="form-label">Municipio de residencia</label>
+                            <div class="input-group mb-3">
+                                <select name="muni" id="" class="form-select">
+                                    <% muni.forEach((datamuni)=>{ %> 
+
+                                        <option value="<%= datamuni.CODMUNIC %>"><%= datamuni.NOMMUNIPIO %></option>
+                                        <% }) %> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="" class="form-label">Sexo</label>
+                            <select name="sexo" id="" class="form-select">
+                                <% sexo.forEach((datasexo)=>{ %> 
+                                    <option value="<%= datasexo.ID_SEXO %>"><%= datasexo.DESC %></option>
+
+                                    <% }) %> 
+                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mt-4">
+                            <label for="" class="form-label">EPS</label>
+                            <select name="eps" id="" class="form-select">
+                                <%  eps.forEach((dataeps)=>{ %> 
+                                    <option value="<%= dataeps.CODIGOHABILITACION %>"><% resumen=dataeps.NOMBRE %><%= resumen.substr(0,20)%></option>
+
+                                    <% }) %> >
+                        </select>
+                        </div>
+                        <div class="col-lg-6 mt-4">
+                            <label for="" class="form-label">Sustancia de consumo</label>
+                            <select name="spa" id="" class="form-select">
+                                <%  spa.forEach((spa)=>{ %> 
+                                    <option value="<%= spa.id_rl_lista_spa %>"><% resumen=spa.SUSTANCIA %><%= resumen.substr(0,50)%></option>
+
+                                    <% }) %> >
+                 </select>
+                        </div>
+                    </div>
+
+                    <div class="row text-center mt-4 justify-content-center">
+                        <button class="btn_dark_blue w-75" onclick="validar()" type="button">Planes de acción y lineas de atención</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
+
+    <script src="/landing/scripts/validar_campos_menor.js"></script>
+
+    <%- include ('includes/footer') -%>

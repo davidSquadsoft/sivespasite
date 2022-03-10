@@ -1,0 +1,944 @@
+<%- include('../includes/header') -%>
+    <section class="content">
+        <div class="titulo_pagina row align-items-center">
+            <div class="col-lg-2">
+                <div class="btn_close d-md-none d-lg-block">
+                    <button type="button" class="close_sidebar">
+                        <i class="bi bi-arrows-fullscreen maximize" id="texto_button_sidebar">&nbsp;Maximizar</i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h4>
+                    <%= tittle%>
+                </h4>
+            </div>
+            <div class="col-lg-6 d-md-none d-lg-block">
+                <div class="bell_notificaciones"><a href="/da/notificaciones"><i class="bi bi-bell-fill"></i></a></div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary  dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if(user) {%>
+                            <p class="nombre_entidad_activa">
+                            <%= user.NOMBRE %> <%= user.APELLIDO %>
+                            </p><% }%>
+                        <br>
+                        <p class="cambiar"><%= user.ENTIDAD %></p>
+           
+              
+                </div>
+            </div>
+        </div>
+        <div class="section_form fluid-container">
+            <div class="container_reporte_form fluid-container tamizajes">
+                <form action="/da/savetamassist" autocomplete="off" method="post" id="form">
+                    
+                    <!--INFORMACION GENERAL SLIDE NUMERO 1 /-->
+                    <!--DATOS COMPLEMENTARIOS PRELIMINARES TAMIZAJE ASSIST (18-60 años/-->
+                    <!--ESTE SLIDE SOLO DEBE DE SALIR EN CUYO CASO LA EDAD DE LA PERSONA QUE SE ESTA REPORTANDO SEA ENTRE 18 A 60 AÑOS, SE DEBE CALCULAR EN BASE A LA FECHA DE NACIMIENTO-->
+                    <!--ENCUESTA TAMIZAJE ASSIST-->
+                    <div class="step step-1 active ">
+                        <div class="form-group">
+                            <h3>ENCUESTA TAMIZAJE ASSIST</h3>
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingDatosB">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseDatosB" aria-expanded="false" aria-controls="flush-collapseDatosB">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>Relacion con datos basicos</h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">Si se continua un tamizaje de una persona ya registrada, con la cedula en el primer campo, va a traer todos los datos, de no ser asi, se rellena solo para el tamizaje</p>
+                                                </div>
+                                            </div>
+                                    </button>
+                                    </h2>
+                                    <div id="flush-collapseDatosB" class="accordion-collapse collapse" aria-labelledby="flush-headingDatosB" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                
+                                            <table>
+                                                <tr>
+
+                                                               <td><label for="Tipo de Identificación">1.1 Fecha de Notificación</label></td>
+                                                    <td><label for="Tipo de Identificación">2.1 Tipo Identificación</label></td>
+                                                    <td><label for="Número Identificación">2.2 Número Identificación</label></td>
+                                                </tr>
+                                                <tr>    <% fechaActual=new Date().toISOString().slice(0, 10); %>
+                                                       <td><input type="date" name="FEC_NOT" class="form-control" required value="<%= fechaActual %>"></td>
+                                                    <td><select name="TIP_IDE" id="options" class="form-control" >
+                                                        <% tipide.forEach((lide)=> { %>
+                                                            <option value="<%= lide.ID_RL_TIP_IDE%>"><%= lide.DESC%></option>
+                                                            <% }) %>
+                                                    </select></td>
+                                                    <td><input type="text" name="NUM_IDE" class="form-control" required value="<%= paciente.NUM_IDE %>"></td>
+                                                </tr>
+                                            </table>
+                                            <table>
+                                                <tr>
+                                                    <td> <label for="Primer Nombre">2.3 Primer Nombre</label></td>
+                                                    <td><label for="Segundo Nombre">2.4 Segundo Nombre</label></td>
+                                                    <td><label for="Primer Apellido">2.5 Primer Apellido</label></td>
+                                                    <td><label for="Segundo Apellido">2.6 Segundo Apellido</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" name="PRI_NOM" class="form-control" required  value="<%= paciente.PRI_NOM %>"></td>
+                                                    <td><input type="text" name="SEG_NOM" class="form-control" required  value="<%= paciente.SEG_NOM %>"></td>
+                                                    <td><input type="text" name="PRI_APE" class="form-control" required  value="<%= paciente.PRI_APE %>"></td>
+                                                    <td><input type="text" name="SEG_APE" class="form-control" required  value="<%= paciente.SEG_APE %>"></td>
+                                                </tr>
+                                            </table>
+                                            <table>
+                                                <tr>
+                                                    <td><label for="Telefono Paciente">2.7 Telefono Paciente</label></td>
+                                                    <td><label for="Fecha de Nacimiento">2.8 Fecha de Nacimiento</label></td>
+                                                    <td><label for="Edad">2.9 Edad</label></td>
+                                                    <td><label for="Sexo">2.10 Sexo</label></td>
+                                                    <td><label for="Nacionalidad">2.11 Nacionalidad</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" name="TELEFONO" id="" class="form-control" required  value="<%= paciente.TELEFONO %>"></td>
+                                                    <% datena= new Date(paciente.FECHA_NTO) %>
+                                                    <% if (paciente==0){datena=new Date()} %>
+                                                    <td><input type="date" name="FECHA_NTO" id="" class="form-control" required  value="<%= datena.toISOString().slice(0,10)%>"></td>
+                                                    <td><input class="form-control" name="EDAD" required value="<%= paciente.EDAD %>">
+                                                    </td>
+                                                    <td><select name="SEXO" id="options" class="form-control">
+                                                        <% sexo.forEach((lsexo)=>{ %> 
+                                                            <option value="<%= lsexo.ID_SEXO %>" <% if (lsexo.ID_SEXO==paciente.ID_SEXO){ %>selected="selected" <% } %> ><%= lsexo.DESC %> </option>
+                                                            <% }) %> 
+                                                    </select></td>
+                                                    <td><input name="NACION" id="" class="form-control" list="listanacionalidades" required value="<%= paciente.ID_RL_NACIONALIDAD %>">
+                                                        <datalist id="listanacionalidades">
+                                                            <% nacion.forEach((lnacion)=>{ %> 
+                                                                <option value="<%= lnacion.ID_NACIONALIDAD %>"><%= lnacion.GENTILICIO_NAC %> </option>
+                                                                <% }) %> 
+
+                                                        </datalist>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table class="">
+                                                <tr>
+                                                    <p class="mt-3">3.1 Lugar de ocurrencia del caso</p>
+                                                </tr>
+                                                <tr>
+                                                    <p class="textos_black">Busca por nombre de lugar"</p>
+                                                    <input type="text" name="ID_RL_DIVIPOLA" class="form-control mb-3"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required value="<%= paciente.ID_RL_DIVIPOLA %>">
+                                                <datalist id="listadoocurrencia">
+                                                    <% ocurrencia.forEach((listaocurrencia)=> { %>
+                                                        <option class="text-lowercase" value="<%= listaocurrencia.CODCENTROPOBLADO %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
+                                                        <%})%>  
+
+                                                </datalist>
+                                                </tr>
+                                            </table>
+                                            <table >
+                                                <tr>3.2 Lugar Residencia del paciente</tr>
+                                            </table>
+                                            <table>
+                                         
+                                                <tr>
+                                                <p class="textos_black">Busca por nombre de lugar"</p>
+                                                    <input type="text" name="ID_RL_DIVIPOLA_RESI" class="form-control mb-3"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required value="<%= paciente.ID_RL_DIVIPOLA %>" >
+                                                <datalist id="listadoocurrencia">
+                                                    <% ocurrencia.forEach((listaocurrencia)=> { %>
+                                                        <option class="text-lowercase" value="<%= listaocurrencia.CODCENTROPOBLADO %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
+                                                        <%})%>  
+
+                                                      
+                                                </tr>
+                                                <tr>3.2 Dirección de residencia del paciente:</tr>
+                                                <tr>
+                                                    <input type="text" name="DIR_RES" class="form-control mt-2"  placeholder="Dirección de residencia" required value="<%= paciente.DIR_RES %>">
+                                                </tr>
+                                            </table>
+                                 
+                                   
+                                            <table>
+                                                <tr>
+                                                    <td><label for="Fecha Consulta">4.1 Tipo de Régimen en Salud</label></td>
+                                                    <td><label for="Fecha Inicio de Síntomas">4.2 Código Administradora</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><select name="tip_reg" id="options" class="form-control">
+                                                        <% regimens.forEach((lregimen)=>{ %> 
+                                                            <option value="<%= lregimen.id_rl_tip_ss %>" <% if(lregimen.id_rl_tip_ss==paciente.id_rl_tip_ss){ %>selected="selected"<% }%>> <%= lregimen.DESCRIP %> </option>
+                                                            <% }) %> 
+                                                    </select></td>
+                                                    <td><input name="cod_adm" list="prestadoras" class="form-control" required value="<%= paciente.COD_ASE %>">
+                                                        <datalist id="prestadoras">
+
+                                                            <% prestadoras.forEach((lprestadoras)=> { %>
+                                                                <option value="<%= lprestadoras.CODIGOHABILITACION %>"><%= lprestadoras.NOMBRE %> </option>
+                                                                <% }) %> 
+                                                        </datalist>
+                                                    
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <TABLE>
+                                                <tr>
+                                                    <td><label for="">Edad de inicio de consumo: </label></td>
+                                                    <td><label for="">Profesión: </label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="number" for="" name="INI_EDAD" required value="<%= iniconsumo.INI_EDAD %>"></td>
+                                                    <td><input type="text"  name="PROFESION" list="profesion" required value="<%= paciente.CIUO88 %>">
+                                                        <datalist id="profesion">
+                                                            <% profesiones.forEach((lprof)=>{ %> 
+                                                                <option value="<%= lprof.ID_OCUPACIONES %>"><%= lprof.TITULO_088 %></option>
+                                                                <% }) %> 
+                                                          </datalist>  
+                                                    </td>
+                                                </tr>
+                                            </TABLE>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 1.</h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">A lo largo de su vida, ¿cual de las siguientes sustancias ha consumido alguna vez? (SOLO PARA USOS NO-MÉDICOS)?</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1a_TAB"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>¿A que edad inicio a fumar?</td>
+                                                    <td><input class="form-control" type="text" id="flexCheckDefault" name="ASSIST_P1_EDAD_INI_CIG"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1b_ALC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1c_CAN"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1d_COC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault "name="ASSIST_P1e_ANF" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1f_INH"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1g_TRA"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1h_ALU"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1i_OPI"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P1j_OTR"></td>
+                                                </tr>
+                                                <td>Cual?</td>
+                                                <td><input type="text" name="ASSIST_P1_CUAL_OTRA" id="" class="form-control"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 2.<br></h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">En los últimos tres meses, ¿con qué frecuencia ha consumido las sustancias que mencionó (PRIMERA DROGA, SEGUNDA DROGA, ETC)?</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nunca</td>
+                                                    <td>1 o 2 veces</td>
+                                                    <td>Cada mes</td>
+                                                    <td>Cada semana</td>
+                                                    <td>A diario</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0"  name="ASSIST_P2a_T0ABname="ASSIST_P2b_ALC" " id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2"  name="ASSIST_P2a_T0ABname="ASSIST_P2b_ALC" " id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3"  name="ASSIST_P2a_T0ABname="ASSIST_P2b_ALC" " id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4"  name="ASSIST_P2a_T0ABname="ASSIST_P2b_ALC" " id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6"  name="ASSIST_P2a_T0ABname="ASSIST_P2b_ALC" " id="flexCheckDefault"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" name="ASSIST_P2b_ALC" id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" name="ASSIST_P2b_ALC" id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" name="ASSIST_P2b_ALC" id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" name="ASSIST_P2b_ALC" id="flexCheckDefault"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" name="ASSIST_P2b_ALC" id="flexCheckDefault"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2c_CAN"></td> 
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2c_CAN"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2d_COC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2e_ANF"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2f_INH"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2g_TRA"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2h_ALU"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2i_OPI"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P2j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="2" id="flexCheckDefault" name="ASSIST_P2j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P2j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P2j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P2j_OTR"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cual?</td>
+                                                    <td><input type="text" name="ASSIST_P2i_CUAL" id="" class="form-control"></td>
+                                                 
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapsThree">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 3.<br> </h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">En los últimos tres meses, ¿con qué frecuencia ha tenido deseos fuertes o ansias de consumir (PRIMERA DROGA, SEGUNDA DROGA, ETC)?</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nunca</td>
+                                                    <td>1 o 2 veces</td>
+                                                    <td>Cada mes</td>
+                                                    <td>Cada semana</td>
+                                                    <td>A diario</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3a_TAB"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault"name="ASSIST_P3b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault"name="ASSIST_P3b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault"name="ASSIST_P3b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault"name="ASSIST_P3b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault"name="ASSIST_P3b_ALC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3c_CAN"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3d_COC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3e_ANF"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3f_INH"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3g_TRA"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3h_ALU"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3i_OPI"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P3j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P3j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P3j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P3j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P3j_OTR"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 4.<br></h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">En los últimos tres meses, ¿con qué frecuencia le ha llevado su consumo de (PRIMERA DROGA, SEGUNDA DROGA, ETC) a problemas de salud, sociales, legales o económicos?</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nunca</td>
+                                                    <td>1 o 2 veces</td>
+                                                    <td>Cada mes</td>
+                                                    <td>Cada semana</td>
+                                                    <td>A diario</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4a_TAB"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4b_ALC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4c_CAN"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4d_COC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4e_ANF"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4f_INH"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4g_TRA"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4h_ALU"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4i_OPI"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P4j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="4" id="flexCheckDefault" name="ASSIST_P4j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P4j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P4j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P4j_OTR"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 5.<br></h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">En los últimos tres meses, ¿con qué frecuencia dejó de hacer lo que se esperaba de usted habitualmente por el consumo de (PRIMERA DROGA, SEGUNDA DROGA, ETC)?</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nunca</td>
+                                                    <td>1 o 2 veces</td>
+                                                    <td>Cada mes</td>
+                                                    <td>Cada semana</td>
+                                                    <td>A diario</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5a_TAB"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5b_ALC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5c_CAN" ></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5c_CAN" ></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5c_CAN" ></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5c_CAN" ></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5c_CAN" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5d_COC"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5e_ANF"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5f_INH"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5g_TRA"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5h_ALU"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5i_OPI"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P5j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="5" id="flexCheckDefault" name="ASSIST_P5j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P5j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="7" id="flexCheckDefault" name="ASSIST_P5j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="8" id="flexCheckDefault" name="ASSIST_P5j_OTR"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingSix">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 6.<br></h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">¿Un amigo, un familiar o alguien más alguna vez ha mostrado preocupación por su consumo de (PRIMERA DROGA, SEGUNDA DROGA, ETC)?</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>No, nunca</td>
+                                                    <td>Si, en los últimos 3 meses</td>
+                                                    <td>Si, pero no en los últimos 3 mesess</td>
+                                               
+                                                </tr>
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6a_TAB"></td>
+                                        
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6b_ALC"></td>
+                                 
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6c_CAN"></td>
+                                  
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6d_COC"></td>
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6e_ANF"></td>
+                                                 
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6f_INH"></td>
+                                                  
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6g_TRA"></td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6h_ALU"></td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6i_OPI"></td>
+                                                  
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P6j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="6" id="flexCheckDefault" name="ASSIST_P6j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="3" id="flexCheckDefault" name="ASSIST_P6j_OTR"></td>
+                                                  
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingSeven">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 7.<br></h3>
+                                                </div>
+                                                <div class="row"><p class="textos_black">¿Ha intentado alguna vez controlar, reducir o dejar de consumir (PRIMERA DROGA, SEGUNDA DROGA, ETC) y no lo ha logrado?</p></div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>No, nunca</td>
+                                                    <td>Si, en los últimos 3 meses</td>
+                                                    <td>Si, pero no en los últimos 3 mesess</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tabaco (cigarrillo)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7a_TAB"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7a_TAB"></td>
+                                      
+                                                </tr>
+                                                <tr>
+                                                    <td>Alcohol</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7b_ALC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7b_ALC"></td>
+                                           
+                                                </tr>
+                                                <tr>
+                                                    <td>Cannabis (marihuana, hierba, hashish, etc.))</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7c_CAN"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7c_CAN"></td>
+                                                 
+                                                </tr>
+                                                <tr>
+                                                    <td> Cocaína (coca, basuco, crack, paco, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7d_COC"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7d_COC"></td>
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <td>Anfetaminas u otro tipo de estimulantes (speed, éxtasis, píldoras adelgazantes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7e_ANF"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7e_ANF"></td>
+                                                  
+                                                </tr>
+                                                <tr>
+                                                    <td>Inhalantes (pegantes, colas, gasolina, solventes, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7f_INH"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7f_INH"></td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>Tranquilizantes o pastillas para dormir (Valium/Diazepam, Trankimazin/Alprazolam/Xanax, Orfidal/Lorazepam, Rohipnol, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7g_TRA"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7g_TRA"></td>
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <td>Alucinógenos (LSD, ácidos, hongos, mezcalina, ketamina, PCP, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7h_ALU"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7h_ALU"></td>
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <td>Opiáceos (heroína, metadona, codeína, morfina, dolantina/petidina, etc.)</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7i_OPI"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7i_OPI"></td>
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <td>Otra</td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7j_OTR"></td>
+                                                    <td><input class="form-check-input" type="radio" value="" id="flexCheckDefault" name="ASSIST_P7j_OTR"></td>
+                                                    
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingEight">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <h3>PREGUNTA 8. </h3>
+                                                </div>
+                                                <div class="row">
+                                                    <p class="textos_black">¿Ha consumido alguna vez alguna droga por vía inyectada? (ÚNICAMENTE PARA USOS NO MÉDICOS)</p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td>Si</td>
+                                                    <td><input class="form-check-input" type="radio" value="1" id="flexCheckDefault" name="ASSIST_P8_1_INY"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>No</td>
+                                                    <td><input class="form-check-input" type="radio" value="0" id="flexCheckDefault" name="ASSIST_P8_1_INY"></td>
+                                                </tr>
+                                            </table>
+                                            <table class="lista_spa_reporte">
+                                                <tr>
+                                                    <td>Frecuencia de la inyección</td>
+                                                    <td><select id="" class="form-select" name="ASSIST_P8_2_FREC">
+                                                        <option value="0">No aplica</option>
+                                                        <option value="1">Una vez a la semana o menos ó Menos de 3 días seguidos</option>
+                                                        <option value="2">Más de una vez a la semana ó 3 o más días seguidos</option>
+                                                    </select></td>
+                                                    
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_box">
+                                <button type="button" onclick="validar();" class="btn_green align-center">Guardar</button>
+                            </div>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/admin/scripts/validar_campos.js"></script>
+    
+    <%- include('../includes/footer') -%>
