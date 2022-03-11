@@ -66,6 +66,25 @@ console.log(vacio)
    }
 };
 
+function validareps() {
+  var formupgd=document.getElementById('formeps').querySelectorAll("[required]");
+  var vacio = 0
+  var s = "";
+  for (var i = 0; i < formupgd.length; i++) {
+    var e = formupgd[i];
+    if(!e.value){
+      vacio=1
+      s += e.name + ": " + (" <span style='color:red'> Vacio </span>") + "<span style='color:red'> // </span>";
+    }
+  }
+console.log(vacio)
+  if (vacio == 1){
+  camposAlerta(s);
+  }else{
+    guardar('formeps')
+ }
+};
+
 function camposAlerta(s){
   Swal.fire({
     title: 'Validar los siguientes campos vacios antes de guardar el usuario:',

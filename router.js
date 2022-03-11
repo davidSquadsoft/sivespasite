@@ -18,6 +18,7 @@ const { Router } = require('express')
 router.post('/registerent', authController.registerent)
 router.post('/registerentM', authController.registerentM)
 router.post('/registerentU', authController.registerentU)
+router.post('/registerEPS', authController.registerEPS)
 router.post('/controluser', authController.userUpdate)
 router.post('/controlupgd', authController.upgdUpdate)
 router.post('/controlentmun', authController.entmunUpdate)
@@ -50,6 +51,7 @@ router.get('/login', (req, res) => {
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //:::
 router.get('/dashboard', authController.isAuth, async(req, res) => {
+  
   noticiasdes = await q('SELECT * FROM contenido WHERE tipo_con=1 AND desta=1 ORDER BY fcreacion DESC')
   var alcoholAnt=await q(`SELECT COUNT(id_reporte) AS cantidad FROM db_con_act WHERE ACT_SPA_ALC = 1`)
   var tabaco=await q(`SELECT COUNT(id_reporte) AS cantidad FROM db_con_act WHERE ACT_SPA_TAB = 1`)
@@ -429,7 +431,7 @@ router.get('/nuevoreporte', authController.isAuth, async (req, res) => {
   sqlocurrencia = 'SELECT * FROM `rl_divipola`'
   sqlprof = 'SELECT * FROM `rl_ciu088`'
   sqlregimen = 'SELECT * FROM `rl_tip_ss`'
-  sqladmsalud = 'SELECT * FROM `rl_pre_ser_sal`'
+  sqladmsalud = 'SELECT * FROM `rl_eps`'
   sqletnica = 'SELECT * FROM `rl_per_ind`'
   sqlidentidadg = 'SELECT * FROM `rl_iden_sex` '
   sqlestadocivil = 'SELECT * FROM `rl_est_civ` '
@@ -625,7 +627,7 @@ router.get('/tassist', authController.isAuth, async(req, res) => {
   var querysexo = await q('SELECT * FROM rl_sexo')
   var queryNacion = await q('SELECT * FROM rl_nacionalidad')
   var querytregimen = await q('SELECT * FROM rl_tip_ss')
-  var queryprestadoras = await q('SELECT * FROM `rl_pre_ser_sal` ')
+  var queryprestadoras = await q('SELECT * FROM `rl_eps` ')
   var queryspas = await q('SELECT * FROM rl_lista_spa')
   var profesiones= await q(`SELECT * FROM rl_ciu088`)
   res.render('da/reportes/tamizaje_assist', {
@@ -702,6 +704,7 @@ router.get('/filterent', authController.isAuth, (req, res) => {
 router.get('/tips', authController.isAuth, async (req, res) => {
   tips = await q('SELECT * FROM contenido WHERE tipo_con=2')
   var filtro = 0
+
   res.render('da/tips/tips', {
     tittle: 'Tips  ',
     user: req.user,
@@ -709,7 +712,8 @@ router.get('/tips', authController.isAuth, async (req, res) => {
     filtro: filtro
   })
 })
-router.get('/entidades', authController.isAuth, (req, res) => {
+router.get('/entidades', authController.isAuth, async(req, res) => {
+  sqleps=await q(`SELECT * FROM rl_eps`)
   sqlmunicipios = 'SELECT DISTINCT `NOMMUNIPIO`,`CODMUNIC` from rl_divipola'
   sqltipoide = 'SELECT `DESC`, `COD`,`ID_RL_TIP_IDE` FROM rl_tip_ide'
   sqltipoUPGD = 'SELECT `COD_PRE`,`RAZ_SOC` FROM `db_uni_not`'
@@ -754,7 +758,8 @@ router.get('/entidades', authController.isAuth, (req, res) => {
         listaUPGD: result[5],
         listaUSERS: result[6],
         listaMUNI: result[7],
-        filtro: 0
+        filtro: 0,
+        sqleps:sqleps
       })
     }
   })
@@ -1047,7 +1052,7 @@ router.get('/tcrafft', authController.isAuth, async (req, res) => {
   var querysexo = await q('SELECT * FROM rl_sexo')
   var queryNacion = await q('SELECT * FROM rl_nacionalidad')
   var querytregimen = await q('SELECT * FROM rl_tip_ss')
-  var queryprestadoras = await q('SELECT * FROM `rl_pre_ser_sal` ')
+  var queryprestadoras = await q('SELECT * FROM `rl_eps` ')
   var queryspas = await q('SELECT * FROM rl_lista_spa')
 
   res.render('da/reportes/tamizaje_crafft', {
@@ -1172,7 +1177,7 @@ router.get('/verreporte/:id', authController.isAuth, async (req, res) => {
   sqlocurrencia = await q(`SELECT * FROM rl_divipola`)
   sqlprof = await q(`SELECT * FROM rl_ciu088`)
   sqlregimen = await q(`SELECT * FROM rl_tip_ss`)
-  sqladmsalud = await q(`SELECT * FROM rl_pre_ser_sal`)
+  sqladmsalud = await q(`SELECT * FROM rl_eps`)
   sqletnica = await q(`SELECT * FROM rl_per_ind`)
   sqlidentidadg = await q(`SELECT * FROM rl_iden_sex `)
   sqlestadocivil = await q(`SELECT * FROM rl_est_civ`)
@@ -1237,7 +1242,7 @@ router.get('/vertamizaje_crafft/:id', authController.isAuth, async(req,res)=>{
   var querysexo = await q('SELECT * FROM rl_sexo')
   var queryNacion = await q('SELECT * FROM rl_nacionalidad')
   var querytregimen = await q('SELECT * FROM rl_tip_ss')
-  var queryprestadoras = await q('SELECT * FROM `rl_pre_ser_sal` ')
+  var queryprestadoras = await q('SELECT * FROM `rl_eps` ')
   var queryspas = await q('SELECT * FROM rl_lista_spa')
   var nombre_completo= vercrafft[0].PRI_NOM + ' '+ vercrafft[0].SEG_NOM + ' ' + vercrafft[0].PRI_APE + ' ' + vercrafft[0].SEG_APE
   res.render('da/reportes/vertamizajecrafft', {
@@ -1261,7 +1266,7 @@ router.get('/vertamizaje_assist/:id', authController.isAuth, async(req,res)=>{
   var querysexo = await q('SELECT * FROM rl_sexo')
   var queryNacion = await q('SELECT * FROM rl_nacionalidad')
   var querytregimen = await q('SELECT * FROM rl_tip_ss')
-  var queryprestadoras = await q('SELECT * FROM `rl_pre_ser_sal` ')
+  var queryprestadoras = await q('SELECT * FROM `rl_eps` ')
   var queryspas = await q('SELECT * FROM rl_lista_spa')
   var profesiones= await q("SELECT * FROM rl_ciu088")
   var nombre_completo= verassist[0].PRI_NOM + ' '+verassist[0].SEG_NOM + ' ' + verassist[0].PRI_APE + ' '+ verassist[0].SEG_APE
@@ -1302,7 +1307,7 @@ var querydivipola = await q(`SELECT * FROM rl_divipola`)
   var querysexo = await q('SELECT * FROM rl_sexo')
   var queryNacion = await q('SELECT * FROM rl_nacionalidad')
   var querytregimen = await q('SELECT * FROM rl_tip_ss')
-  var queryprestadoras = await q('SELECT * FROM `rl_pre_ser_sal` ')
+  var queryprestadoras = await q('SELECT * FROM `rl_eps` ')
   var queryspas = await q('SELECT * FROM rl_lista_spa')
   var profesiones= await q(`SELECT * FROM rl_ciu088`)
 

@@ -684,7 +684,7 @@ exports.dareporte = async (req, res) => {
         const COD_EVEN = req.body.COD_CIE10
         const COD_PRE = user.COD_PRE
         const COD_SUB = user.COD_SUB
-        console.log(req.body.PRI_NOM)
+        
         // variables de db_ide_pac identificacion de paciente
         const ID_TIP_IDE = req.body.ID_TIP_IDE
         const NUM_IDE = req.body.NUM_IDE
@@ -999,11 +999,22 @@ exports.dareporte = async (req, res) => {
           }
         })
       });
-    res.redirect(`/da/datauser/${idglobalreporte}`)
+      console.log(req.body.tamcon)
+      continua=req.body.tamcon
+      console.log(continua)
+      
+      if(continua==1){
+        res.redirect(`/da/datauser/${idglobalreporte}`)
+      }else{
+        res.redirect(`/da/reportes`)
+      }
+      
+
   } catch (error) {
     console.log(error);
   }
 };
+
 exports.updatereporte = async (req, res) => {
   try {
     const decodificada = await promisify(jwt.verify)(req.cookies.jwt, "dddd");

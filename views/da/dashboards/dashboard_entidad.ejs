@@ -1,19 +1,19 @@
 <%- include('../includes/header') -%>
 <section class="content">
-  <div class="titulo_pagina row align-items-center">
-    <div class="col-lg-2">
+  <div class="titulo_pagina row align-items-center p-2">
+    <div class="col-lg-8">
+        <h4><%= tittle%></h4>
+    </div>    
+    <div class="col-lg-4">
       <div class="btn_close d-md-none d-lg-block">
         <button type="button" class="close_sidebar">
           <i class="bi bi-arrows-fullscreen maximize" id="texto_button_sidebar"
-            >&nbsp;Maximizar</i
+            >&nbsp;Maximizar tablero</i
           >
         </button>
       </div>
     </div>
-    <div class="col-lg-4">
-      <h4><%= tittle%></h4>
-    </div>
-    <div class="col-lg-6 d-md-none d-lg-block">
+    <div class="col-lg-6 d-md-none d-none">
       <div class="bell_notificaciones">
         <a href="/da/notificaciones"
           ><i class="bi bi-bell-fill"></i
@@ -58,7 +58,10 @@
           </button>
         </div>
       </div>
-      <div class="row align-items-center cards_section_btn_dashboards">
+   
+      <div class="row align-items-center cards_section_btn_dashboards shadow">
+        <% if(user) { if (user.TIP_USER == 1 || user.TIP_USER == 4 || user.TIP_USER == 3 ) {%>
+          
         <div class="col-lg-4 col-xs-12">
           <a href="/da/reportes">
             <div class="card card_dashboard">
@@ -87,14 +90,12 @@
                   />
                 </svg>
                 <h5 class="card-title">Reportar</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
         </div>
-        <% if(user) { if (user.TIP_USER == 1 || user.TIP_USER == 2 ||
-          user.TIP_USER == 3 ) {%>
-
+        <% }} %> 
+        <% if(user) { if (user.TIP_USER == 1 || user.TIP_USER == 2 || user.TIP_USER == 3 ) {%>
         <div class="col-lg-4 col-xs-12">
           <a href="/da/informes">
             <div class="card card_dashboard">
@@ -123,7 +124,6 @@
                   />
                 </svg>
                 <h5 class="card-title">informes</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -159,7 +159,6 @@
                   />
                 </svg>
                 <h5 class="card-title">Estadisticas</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -200,7 +199,6 @@
                   />
                 </svg>
                 <h5 class="card-title">Entidades</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -237,7 +235,6 @@
                   />
                 </svg>
                 <h5 class="card-title">Información</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -286,7 +283,6 @@
                   />
                 </svg>
                 <h5 class="card-title">Noticias</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -356,7 +352,6 @@
                   />
                 </svg>
                 <h5 class="card-title">Tips</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -407,7 +402,6 @@
                   </g>
                 </svg>
                 <h5 class="card-title">Contacto</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>
@@ -440,7 +434,6 @@
                   />
                 </svg>
                 <h5 class="card-title">Notificaciones</h5>
-                <p class="card-text">Texto de resumen corto.</p>
               </div>
             </div>
           </a>

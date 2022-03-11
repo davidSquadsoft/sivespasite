@@ -203,6 +203,29 @@ exports.registerentU = async (req, res) => {
     console.log(error);
   }
 };
+exports.registerEPS=async(req,res)=>{
+  NOMBRE_RESPON=req.body.NOMBRE_RESPON
+  APELLIDO_RESPON=req.body.APELLIDO_RESPON
+  TIP_IDE=req.body.TIP_IDE
+  NRO_DOC=req.body.NRO_DOC
+  EMAIL=req.body.EMAIL
+  TEL=req.body.TEL
+  eps=req.body.eps
+  pass=req.body.pass
+  COD_PRE=0
+  COD_SUB=0
+  COD_MUN=0
+
+  nombreeps=await q(`SELECT eps_nom FROM rl_eps WHERE id=${eps}`)
+  nombreeps=nombreeps[0].eps_nom
+  console.log(nombreeps)
+  
+  inUEPS= await q(`INSERT INTO db_pre_sal (nombre, nombre_res, apellido_res, NRO_DOC, email, TELEFONO) VALUES ('${nombreeps}','${NOMBRE_RESPON}','${APELLIDO_RESPON}',${NRO_DOC},'${EMAIL}',${TEL})`)
+  inUser= await q(`INSERT INTO st_user (TIP_USER,NOMBRE, APELLIDO, TIP_IDEN, CEDULA, EMAIL, TEL, ENTIDAD, COD_MUN, COD_PRE, COD_SUB, USER, PASS, PASS2) VALUES (5,'${NOMBRE_RESPON}','${APELLIDO_RESPON}',${TIP_IDE},'${NRO_DOC}','${EMAIL}','${TEL}',  '${nombreeps}',  0,  0,  0,  '${EMAIL}',  '${pass}',  '${pass}' )`)
+  res.redirect('da/entidades')
+
+
+}
 //metodo de logueo:
 exports.login = async (req, res) => {
   try {
@@ -275,6 +298,7 @@ exports.isAuth = async (req, res, next) => {
             return next();
           }
           req.user = result[0];
+          console.log(req.user)
           return next();
         }
       );
@@ -286,6 +310,7 @@ exports.isAuth = async (req, res, next) => {
     res.redirect("/da/login");
   }
 };
+
 //metodo de cerrar sesion:
 exports.logout = async (req, res) => {
   res.clearCookie("jwt");

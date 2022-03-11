@@ -69,7 +69,7 @@
                                                                 <option value="<%= lide.ID_RL_TIP_IDE%>" <% if(lide.ID_RL_TIP_IDE== paciente.TIP_IDE){%> selected="selected" <%}%>><%= lide.DESC%></option>
                                                                 <% }) %>
                                                         </select></td>
-                                                        <td><input type="text" name="NUM_IDE" class="form-control" required value="<%= paciente.NUM_IDE %>"></td>
+                                                        <td><input type="text" name="NUM_IDE" class="form-control" required value="<%= paciente.NUM_IDE %>" onkeydown="return/[a-z0-9]/i.test(event.key)"></td>
                                                     </tr>
                                                 </table>
                                                 <table>
@@ -80,22 +80,22 @@
                                                         <td><label for="Segundo Apellido">2.6 Segundo Apellido</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="text" name="PRI_NOM" class="form-control" required value="<%= paciente.PRI_NOM%>"></td>
-                                                        <td><input type="text" name="SEG_NOM" class="form-control" required value="<%= paciente.SEG_NOM %>"></td>
-                                                        <td><input type="text" name="PRI_APE" class="form-control" required value="<%= paciente.PRI_APE %>"></td>
-                                                        <td><input type="text" name="SEG_APE" class="form-control" required value="<%= paciente.SEG_APE %>"></td>
+                                                        <td><input type="text" name="PRI_NOM" class="form-control" required value="<%= paciente.PRI_NOM%>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
+                                                        <td><input type="text" name="SEG_NOM" class="form-control" required value="<%= paciente.SEG_NOM %>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
+                                                        <td><input type="text" name="PRI_APE" class="form-control" required value="<%= paciente.PRI_APE %>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
+                                                        <td><input type="text" name="SEG_APE" class="form-control" required value="<%= paciente.SEG_APE %>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
                                                     </tr>
                                                 </table>
                                                 <table>
                                                     <tr>
-                                                        <td><label for="Telefono Paciente">2.7 Telefono Paciente</label></td>
+                                                        <td><label for="Telefono Paciente">2.7 Teléfono Paciente</label></td>
                                                         <td><label for="Fecha de Nacimiento">2.8 Fecha de Nacimiento</label></td>
                                                         <td><label for="Edad">2.9 Edad</label></td>
                                                         <td><label for="Sexo">2.10 Sexo</label></td>
                                                         <td><label for="Nacionalidad">2.11 Nacionalidad</label></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="text" name="TELEFONO" id="" class="form-control" required value="<%= paciente.TELEFONO %>"></td>
+                                                        <td><input type="text" name="TELEFONO" id="" class="form-control" required value="<%= paciente.TELEFONO %>" onkeypress="fncInputNumericValuesOnly()"></td>
                                                         <td><input type="date" name="FECHA_NTO" id="" class="form-control" required></td>
                                                         <td><Select class="form-control" name="EDAD" value="<%= paciente.EDAD %>">
                                                             <option value="1">5</option>
@@ -117,7 +117,7 @@
                                                                 <option value="<%= lsexo.ID_SEXO %>" <% if(lsexo.ID_SEXO == paciente.ID_SEXO){%> selected="selected" <% } %>  ><%= lsexo.DESC %> </option>
                                                                 <% }) %> 
                                                         </select></td>
-                                                        <td><input name="NACION" id="" class="form-control" list="listanacionalidades" required value="<%= paciente.ID_RL_NACIONALIDAD %>">
+                                                        <td><input name="NACION" id="" class="form-control" list="listanacionalidades" required value="<%= paciente.ID_RL_NACIONALIDAD %>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                             <datalist id="listanacionalidades">
                                                                 <% nacion.forEach((lnacion)=>{ %> 
                                                                     <option value="<%= lnacion.ID_NACIONALIDAD %>"><%= lnacion.GENTILICIO_NAC %> </option>
@@ -133,7 +133,7 @@
                                                     </tr>
                                                     <tr>
                                                         <p class="textos_black">Busca por nombre de lugar"</p>
-                                                        <input type="text" name="ID_RL_DIVIPOLA" class="form-control mb-3"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required value="<%= paciente.ID_RL_DIVIPOLA %>" >
+                                                        <input type="text" name="ID_RL_DIVIPOLA" class="form-control mb-3"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required value="<%= paciente.ID_RL_DIVIPOLA %>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                     <datalist id="listadoocurrencia">
                                                         <% ocurrencia.forEach((listaocurrencia)=> { %>
                                                             <option class="text-lowercase" value="<%= listaocurrencia.CODCENTROPOBLADO %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
@@ -149,7 +149,7 @@
                                              
                                                     <tr>
                                                     <p class="textos_black">Busca por nombre de lugar"</p>
-                                                        <input type="text" name="ID_RL_DIVIPOLA_RESI" class="form-control mb-3"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required value="<%= paciente.ID_RL_DIVIPOLA %>">
+                                                        <input type="text" name="ID_RL_DIVIPOLA_RESI" class="form-control mb-3"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required value="<%= paciente.ID_RL_DIVIPOLA %>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                     <datalist id="listadoocurrencia">
                                                         <% ocurrencia.forEach((listaocurrencia)=> { %>
                                                             <option class="text-lowercase" value="<%= listaocurrencia.CODCENTROPOBLADO %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
@@ -175,11 +175,11 @@
                                                                 <option value="<%= lregimen.id_rl_tip_ss %>" <% if(lregimen.id_rl_tip_ss== paciente.id_rl_tip_ss){%>selected="selected" <% } %> > <%= lregimen.DESCRIP %> </option>
                                                                 <% }) %> 
                                                         </select></td>
-                                                        <td><input name="cod_adm" list="prestadoras" class="form-control" required value="<%= paciente.COD_ASE %>">
+                                                        <td><input name="cod_adm" list="prestadoras" class="form-control" required value="<%= paciente.COD_ASE %>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                             <datalist id="prestadoras">
 
                                                                 <% prestadoras.forEach((lprestadoras)=> { %>
-                                                                    <option value="<%= lprestadoras.CODIGOHABILITACION %>"><%= lprestadoras.NOMBRE %> </option>
+                                                                    <option value="<%= lprestadoras.id %>"><%= lprestadoras.eps_nom %> </option>
                                                                     <% }) %> 
                                                             </datalist>
                                                         
@@ -301,6 +301,15 @@
             </div>
         </div>
     </section>
+        
+    <script type="text/javascript" language="jscript">
+        function fncInputNumericValuesOnly() {
+            if (!(event.keyCode == 32 || event.keyCode == 46 || event.keyCode == 48 || event.keyCode == 49 || event.keyCode == 50 || event.keyCode == 51 || event.keyCode == 52 || event.keyCode == 53 || event.keyCode == 54 || event.keyCode == 55 || event.keyCode == 56 || event.keyCode == 57))
+            {
+                event.returnValue = false;
+            }
+        }
+  </script>
     <script src="/admin/scripts/validar_campos.js"></script>
     <script src="../scripts/validar_campos.js"></script>
     <%- include('../includes/footer') -%>

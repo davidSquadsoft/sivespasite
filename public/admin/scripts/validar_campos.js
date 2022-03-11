@@ -2,6 +2,8 @@ var requiredElements=document.getElementById('form').querySelectorAll("[required
 var form=document.getElementById('form')
 
 o = document.getElementById("output");
+
+
 function validar() {
   var vacio = 0
     var s = "";
@@ -19,6 +21,10 @@ console.log(vacio)
       guardar()
    }
 };
+
+
+
+
 function camposAlerta(s){
   Swal.fire({
     title: 'Validar los siguientes campos vacios antes de guardar el reporte:',
@@ -28,6 +34,12 @@ function camposAlerta(s){
     confirmButtonColor:'#3c773c',
   })
 };
+
+
+
+
+
+
 function guardar(){
   Swal.fire({
     title: 'Guardar Reporte',
@@ -44,3 +56,4 @@ function guardar(){
     }
 })
 }
+

@@ -74,8 +74,9 @@ app.get('/', async(req, res) => {
 app.get('/lc/acerca', (req, res) => {
   res.render('lc/acerca', { tittle: 'Acerca' })
 })
-app.get('/lc/contacto', (req, res) => {
-  res.render('lc/contacto', { tittle: 'Contacto' })
+app.get('/lc/contacto', async(req, res) => {
+  lineas=await q(`SELECT * FROM lineas_atention WHERE COD_PRE=0 AND COD_MUN=0`)
+  res.render('lc/contacto', { tittle: 'Contacto',lineas:lineas })
 })
 app.get('/lc/descargas', (req, res) => {
   res.render('lc/descargas', { tittle: 'Descargas' })

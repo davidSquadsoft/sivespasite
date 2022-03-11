@@ -56,7 +56,7 @@
                                                         <option value="<%= tipoide.ID_RL_TIP_IDE %>" <% if(tipoide.ID_RL_TIP_IDE == db_ide_pac.ID_TIP_IDE){ %> selected="selected" <% } %>><%=tipoide.DESC %></option>
                                                     <%})%>
                                                 </select></td>
-                                                <td><input type="text" name="NUM_IDE" class="form-control" value="<%= db_ide_pac.NUM_IDE %>" ></td>
+                                                <td><input type="text" name="NUM_IDE" class="form-control" value="<%= db_ide_pac.NUM_IDE %>" onkeydown="return/[a-z0-9]/i.test(event.key)"></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -67,15 +67,15 @@
                                                 <td><label for="Segundo Apellido">2.6 Segundo Apellido</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="PRI_NOM" class="form-control"  value="<%=  db_ide_pac.PRI_NOM %>" ></td>
-                                                <td><input type="text" name="SEG_NOM" class="form-control"value="<%=  db_ide_pac.SEG_NOM %>" ></td>
-                                                <td><input type="text" name="PRI_APE" class="form-control" value="<%=  db_ide_pac.PRI_APE %>"></td>
-                                                <td><input type="text" name="SEG_APE" class="form-control" value="<%=  db_ide_pac.SEG_APE %>"></td>
+                                                <td><input type="text" name="PRI_NOM" class="form-control"  value="<%=  db_ide_pac.PRI_NOM %>" onkeydown="return/[a-z ]/i.test(event.key)" ></td>
+                                                <td><input type="text" name="SEG_NOM" class="form-control"value="<%=  db_ide_pac.SEG_NOM %>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
+                                                <td><input type="text" name="PRI_APE" class="form-control" value="<%=  db_ide_pac.PRI_APE %>"onkeydown="return/[a-z ]/i.test(event.key)"></td>
+                                                <td><input type="text" name="SEG_APE" class="form-control" value="<%=  db_ide_pac.SEG_APE %>"onkeydown="return/[a-z ]/i.test(event.key)"></td>
                                             </tr>
                                         </table>
                                         <table>
                                             <tr>
-                                                <td><label for="Telefono Paciente">2.7 Telefono Paciente</label></td>
+                                                <td><label for="Telefono Paciente">2.7 Teléfono Paciente</label></td>
                                                 <td><label for="Fecha de Nacimiento">2.8 Fecha de Nacimiento</label></td>
                                                 <td><label for="Edad">2.9 Edad</label></td>
                                                 <td><label for="Sexo">2.10 Sexo</label></td>
@@ -83,16 +83,16 @@
                                                 <td><label for="Nacionalidad">2.11 Nacionalidad: <%= userpais[0].DESC%></label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="TELEFONO" id="" class="form-control"  value="<%=  db_ide_pac.TELEFONO %>"></td>
+                                                <td><input type="text" name="TELEFONO" id="" class="form-control"  value="<%=  db_ide_pac.TELEFONO %>" onkeypress="fncInputNumericValuesOnly()"></td>
                                                 <td><input type="date" name="FECHA_NTO"  class="form-control" value="<%=  db_ide_pac.FECHA_NTO.toISOString().slice(0, 10); %>"></td>
-                                                <td><input type="text" name="EDAD" id="" class="form-control" value="<%=  db_ide_pac.EDAD %>" ></td>
+                                                <td><input type="text" name="EDAD" id="" class="form-control" value="<%=  db_ide_pac.EDAD %>" onkeypress="fncInputNumericValuesOnly()"></td>
                                                 <td><select name="ID_SEXO" id="options" class="form-control" >
                                                     <% sexo.forEach((tiposexo)=> { %>
                                                         <option value="<%= tiposexo.ID_SEXO %>"  <% if(tiposexo.ID_SEXO == db_ide_pac.ID_SEXO){ %> selected="selected" <% } %>><%=tiposexo.DESC%></option>
                                                     <%})%>  
                                                 </select></td>
                                                                    <td>
-                                                    <input name="ID_RL_NACIONALIDADa" id="" class="form-control" list="nacion" value="<%= db_ide_pac.ID_RL_NACIONALIDAD %>" >
+                                                    <input name="ID_RL_NACIONALIDADa" id="" class="form-control" list="nacion" value="<%= db_ide_pac.ID_RL_NACIONALIDAD %>" onkeydown="return/[a-z ]/i.test(event.key)" required >
                                                         <datalist id="nacion">
                                                             <% pais.forEach((listpais)=> { %>
                                                             <option class="text-lowercase" value="<%= listpais.ID_RL_PAIS_DIAN %>"><%= listpais.DESC %></option>
@@ -108,7 +108,7 @@
                                             <tr>
                                                
                                                 <label><%= todomun[0].NOMCENTRPOBLADO %> </label>
-                                                    <input type="text" name="ID_RL_DIVIPOLA" class="form-control" list="listadoocurrencia1" value="<%= db_ide_pac.ID_RL_DIVIPOLA %>" >
+                                                    <input type="text" name="ID_RL_DIVIPOLA" class="form-control" list="listadoocurrencia1" value="<%= db_ide_pac.ID_RL_DIVIPOLA %>"onkeydown="return/[a-z ]/i.test(event.key)" >
                                                     <datalist id="listadoocurrencia1">
                                                         <% ocurrencia.forEach((listaocurrencia)=> { %>
                                                             <option class="text-lowercase" value="<%= listaocurrencia.CODCENTROPOBLADO %>"> <%= listaocurrencia.NOMMUNIPIO%>,<%= listaocurrencia.NOMCENTRPOBLADO %> - <%= listaocurrencia.TIPOCENTPOBLADO %></option>
@@ -119,14 +119,14 @@
                                         <table>
                                             <tr>
                                                 <% profuser = prof.filter(nomprof=> nomprof.ID_OCUPACIONES  == db_ide_pac.CIUO88) %>
-                                                <% useradsalud= listaADMSALUD.filter(nsalud=>nsalud.CODIGOHABILITACION == db_ide_pac.COD_ASE)%>
+                                                <% useradsalud= listaADMSALUD.filter(nsalud=>nsalud.id == db_ide_pac.COD_ASE)%>
                                                 <td><label for="Ocupación del paciente">2.20 Ocupación del paciente: <%=profuser[0].TITULO_088 %></label></td>
                                                 <td><label for="Tipo de Régimen en Salud">2.21 Tipo de Régimen en Salud</label></td>
                                                 <td><label for="Código Administradora">2.22 Código Administradora:</label></td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input name="CIUO88" id="" class="form-control" list="profesion" value="<%= db_ide_pac.CIUO88 %>" >
+                                                    <input name="CIUO88" id="" class="form-control" list="profesion" value="<%= db_ide_pac.CIUO88 %>" onkeydown="return/[a-z ]/i.test(event.key)" >
                                                     <datalist id="profesion">
                                                         <% prof.forEach((profesion)=> { %>
                                                         <option  class="text-lowercase" value="<%= profesion.ID_OCUPACIONES  %>"> <%= profesion.TITULO_08 %></option>
@@ -141,10 +141,10 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="COD_ASE" id="" class="form-control" list="codadmSalud" value="<%= db_ide_pac.COD_ASE %>" >
+                                                    <input type="text" name="COD_ASE" id="" class="form-control" list="codadmSalud" value="<%= db_ide_pac.COD_ASE %>" onkeydown="return/[a-z ]/i.test(event.key)" >
                                                     <datalist id="codadmSalud">
                                                         <% listaADMSALUD.forEach((ladmsalud)=> { %>
-                                                        <option  class="text-lowercase" value="<%= ladmsalud.CODIGOHABILITACION %>" > <%= ladmsalud.NOMBRE %></option>
+                                                        <option  class="text-lowercase" value="<%= ladmsalud.id %>" > <%= ladmsalud.eps_nom %></option>
                                                         <%})%>  
                                                     </datalist>
                                                 </td>
@@ -162,7 +162,7 @@
                                                         <option  class="text-lowercase" value="<%= letnias.id_rl_per_ind %>" <% if(letnias.id_rl_per_ind==db_ide_pac.rl_per_ind){ %>selected="selected" <% }%> ><%= letnias.DESC %></option>
                                                         <%})%> 
                                                 </select></td>
-                                                <td><input type="text" name="NOM_GRUPO" id="" class="form-control" value="<%= db_ide_pac.NOM_GRUPO %>" ></td>
+                                                <td><input type="text" name="NOM_GRUPO" id="" class="form-control" value="<%= db_ide_pac.NOM_GRUPO %>" onkeydown="return/[a-z ]/i.test(event.key)" ></td>
                                                 <td><select name="ESTRATO" id="" class="form-control" >
                                                     <option value="1" <% if(db_ide_pac.ESTRATO == 1){ %> selected="selected" <% } %>>Estrato 1</option>
                                                     <option value="2" <% if(db_ide_pac.ESTRATO == 2){ %> selected="selected" <% } %>>Estrato 2</option>
@@ -184,7 +184,7 @@
                                             </tr>
                                             <tr>
                                                 <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpges" <% if(db_ide_pac.gpges == 1){ %> checked="checked" <% } %>><label for="Grupo Poblacional - Gestantes">Gestantes</label></td>
-                                                <td><input name="SEM_GES" id="" class="form-control" placeholder="Semanas de Gestación" style="width:80%!important" <%= db_ide_pac.SEM_GES %> ></td>
+                                                <td><input onkeypress="fncInputNumericValuesOnly()" name="SEM_GES" id="" class="form-control" placeholder="Semanas de Gestación" style="width:80%!important" <%= db_ide_pac.SEM_GES %> ></td>
                                                 <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpindi" <% if(db_ide_pac.gpindi == 1){ %> checked="checked" <% } %>><label for="Grupo Poblacional - Habitante de calle">Habitante de calle</label></td>
                                             </tr>
                                             <tr>
@@ -252,7 +252,7 @@
                                             <tr><label for="Código del País de Residencia del paciente">3.2 País: <%= userpais[0].DESC%></label>
                                             </tr>
                                             <tr>
-                                                <input name="ID_RL_NACIONALIDAD" id="" class="form-control" list="nacion1" value="<%= db_notif.ID_RL_PAIS_DIAN%>">
+                                                <input name="ID_RL_NACIONALIDAD" id="" class="form-control" list="nacion1" value="<%= db_notif.ID_RL_PAIS_DIAN%>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                 <datalist id="nacion1">
                                                     <% pais.forEach((listpais)=> { %>
                                                     <option  class="text-lowercase" value="<%= listpais.ID_RL_PAIS_DIAN %>" > <%= listpais.DESC %></option>
@@ -260,16 +260,17 @@
                                                 </datalist>
                                             </tr>
                                             <tr >
+                                                <label>3.2.1 Municipio</label>
                                                 <% lugarocurrencia2 = ocurrencia.filter(nocurrencia=>nocurrencia.CODCENTROPOBLADO = db_notif.ID_RL_DIVIPOLA)%>
                                                 <label for="Código del País de Residencia del paciente">Municipio: <%= lugarocurrencia2[0].NOMMUNIPIO %></label>
-                                                <input type="text" name="ID_RL_DIVIPOLA" class="form-control"  value="<%= db_notif.ID_RL_DIVIPOLA %> "  list="listadoocurrencia" >
+                                                <input type="text" name="ID_RL_DIVIPOLA" class="form-control"  value="<%= db_notif.ID_RL_DIVIPOLA %> "  list="listadoocurrencia" onkeydown="return/[a-z ]/i.test(event.key)">
                                                 <datalist id="listadoocurrencia">
                                                     <% ocurrencia.forEach((listaocurrencia)=> { %>
                                                         <option class="text-lowercase" value="<%= listaocurrencia.CODMUNIC %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
                                                         <%})%>  
                                                 </datalist>
                                             </tr>
-                                            <tr ><label for="Código del País de Residencia del paciente">Direccion de residencia:</label>
+                                            <tr ><label for="Código del País de Residencia del paciente">3.2.2Direccion de residencia:</label>
                                                 <input type="text" name="DIR_RES" class="form-control"  value="<%= db_notif.DIR_RES %>" >
                                             </tr>
                                         </table>
@@ -313,7 +314,7 @@
                                                 <td><input type="date" name="FEC_DEF" id="" class="form-control" value="<%= db_notif.FEC_DEF.toISOString().slice(0, 10)%>"></td>
                                                 <td><input type="text" name="CER_DEF" id="" class="form-control" value="<%= db_notif.CER_DEF%>"></td>
                                                 <td>
-                                                    <input type="text" name="ID_RL_CIE_10" class="form-control" list="causadefunciondata" value="<%= db_notif.ID_RL_CIE_10 %>">
+                                                    <input type="text" name="ID_RL_CIE_10" class="form-control" list="causadefunciondata" value="<%= db_notif.ID_RL_CIE_10 %>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                     <datalist id="causadefunciondata">
                                                         <% causadefuncion.forEach((lcausadefuncion)=> { %>
                                                             <option class="text-lowercase" value="<%= lcausadefuncion.ID_CIE_10 %>" > <%= lcausadefuncion.DESC4CHART %></option>
@@ -377,7 +378,7 @@
                                                 <td><label for="Entorno del primer consumo">5.2 Entorno del primer consumo</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="INI_EDAD" id="" class="form-control" value="<%= db_ini_con.INI_EDAD %>"></td>
+                                                <td><input type="text" name="INI_EDAD" id="" class="form-control" value="<%= db_ini_con.INI_EDAD %>" onkeypress="fncInputNumericValuesOnly()"></td>
                                                 <td><select name="INI_ENTORNO" id="" class="form-control" >
                                                     <% entorno.forEach((lentorno)=> { %>
                                                         <option class="text-lowercase" value="<%= lentorno.ID_RL_INI_ENTORNO %>" <% if(lentorno.ID_RL_INI_ENTORNO==db_ini_con.ID_RL_INI_ENTORNO){ %> selected="selected" <% } %>> <%= lentorno.DESC %></option>
@@ -397,7 +398,7 @@
                                                         <option class="text-lowercase" value="<%= linilugar.ID_RL_INI_LUGAR %>" <% if(linilugar.ID_RL_INI_LUGAR==db_ini_con.ID_RL_INI_LUGAR){ %> selected="selected" <% } %> > <%= linilugar.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input name="INI_LUGAR_OTRO" id="" class="form-control" value="<%= db_ini_con.INI_LUGAR_OTRO%>"></td>
+                                                <td><input name="INI_LUGAR_OTRO" id="" class="form-control" value="<%= db_ini_con.INI_LUGAR_OTRO%>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
                                                 <td><select name="INI_PERSONA" id="" class="form-control" >
                                                     <% iniperso.forEach((lperso)=> { %>
                                                         <option class="text-lowercase" value="<%= lperso.ID_RL_INI_PER %>" <% if(lperso.ID_RL_INI_PER==db_ini_con.ID_RL_INI_PER){ %> selected="selected" <% } %>> <%= lperso.DESC %></option>
@@ -416,7 +417,7 @@
                                                         <option class="text-lowercase" value="<%= linimotivo.ID_RL_INI_MOTIV %>"<% if(linimotivo.ID_RL_INI_MOTIV==db_ini_con.ID_RL_INI_MOTIV){ %> selected="selected" <% } %> > <%= linimotivo.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input  name="INI_MOTIVO_OTRA" id="" class="form-control" value="<%= db_ini_con.ID_RL_INI_MOTIV2 %>"></td>
+                                                <td><input  name="INI_MOTIVO_OTRA" id="" class="form-control" value="<%= db_ini_con.ID_RL_INI_MOTIV2 %>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -430,7 +431,7 @@
                                                         <option class="text-lowercase" value="<%= lspa.id_rl_lista_spa %>"<% if(lspa.id_rl_lista_spa==db_ini_con.ID_RL_LISTA_SPA){ %> selected="selected" <% } %>> <%= lspa.SUSTANCIA %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input type="text" name="INI_SPA_OTRA" id="" class="form-control" value="<%= db_ini_con.ID_RL_LISTA_SPA2 %>">
+                                                <td><input type="text" name="INI_SPA_OTRA" id="" class="form-control" value="<%= db_ini_con.ID_RL_LISTA_SPA2 %>" onkeydown="return/[a-z ]/i.test(event.key)">
                                                    </td>
                                             </tr>
                                         </table>
@@ -537,7 +538,7 @@
                                         <table>
                                             <tr>
                                                 <td><label for="6.2 En su consumo actual (último mes), cuál es la sustancia de mayor impacto">6.2 En su consumo actual (último mes), cuál es la sustancia de mayor impacto</label></td>
-                                                <td><label for="6.2.22.1 Otra sustancia de mayor impacto, cual">6.2.2.1 Otra sustancia de mayor impacto, cuall</label></td>
+                                                <td><label for="6.2.22.1 Otra sustancia de mayor impacto, cual">6.2.2.1 Otra sustancia de mayor impacto, cual</label></td>
                                             </tr>
                                             <tr>
                                                 <td><select name="IMP_SPA" id="" class="form-control" >
@@ -545,7 +546,7 @@
                                                         <option class="text-lowercase" value="<%= lspa.id_rl_lista_spa %>"<% if(lspa.id_rl_lista_spa==db_con_act.IMP_SPA){ %> selected="selected" <% } %> > <%= lspa.SUSTANCIA %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input name="IMP_SPA_OTRA" id="" class="form-control" value="<%= db_con_act.ID_RL_LISTA_SPA2%>"></td>
+                                                <td><input name="IMP_SPA_OTRA" id="" class="form-control" value="<%= db_con_act.ID_RL_LISTA_SPA2%>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -572,7 +573,7 @@
                                                         <option class="text-lowercase" value="<%= linilugar.ID_RL_INI_LUGAR %>"<% if(linilugar.ID_RL_INI_LUGAR==db_con_act.ID_RL_INI_LUGAR ){ %> selected="selected" <% } %> > <%= linilugar.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input name="IMP_LUGAR_OTRO" id="" class="form-control" value="<%= db_con_act.ID_RL_INI_LUGAR2 %>"></td>
+                                                <td><input name="IMP_LUGAR_OTRO" id="" class="form-control" value="<%= db_con_act.ID_RL_INI_LUGAR2 %>" onkeydown="return/[a-z ]/i.test(event.key)"></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -686,5 +687,15 @@
                 </div>
             </div>
     </section>
+
+        
+    <script type="text/javascript" language="jscript">
+        function fncInputNumericValuesOnly() {
+            if (!(event.keyCode == 32 || event.keyCode == 46 || event.keyCode == 48 || event.keyCode == 49 || event.keyCode == 50 || event.keyCode == 51 || event.keyCode == 52 || event.keyCode == 53 || event.keyCode == 54 || event.keyCode == 55 || event.keyCode == 56 || event.keyCode == 57))
+            {
+                event.returnValue = false;
+            }
+        }
+  </script>
     <script src="/admin/scripts/validar_campos.js"></script>
     <%- include('../includes/footer') -%>

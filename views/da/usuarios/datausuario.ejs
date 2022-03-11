@@ -44,6 +44,7 @@
                                 <% if(userver.TIP_USER==2) { rol="Entidad Municipal"}  %> 
                                 <% if(userver.TIP_USER==3) { rol="UPGD"}  %> 
                                 <% if(userver.TIP_USER==4) { rol="Usuario de UPGD"}  %> 
+                                <% if(userver.TIP_USER==5) { rol="Usuario de EPS"}  %> 
                                 <input type="text" class="form-control mb-2" value="<%= rol %>" readonly="readonly">
                                 <label for="">Email</label>
                                 <input type="text" name="EMAIL" class="form-control mb-2" value="<%= userver.EMAIL%>" required>

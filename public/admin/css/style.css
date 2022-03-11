@@ -264,8 +264,8 @@ input[type=number] {
 }
 
 #sidebar ul li a:hover {
-    color: var(--white);
-    font-weight: 300;
+    color: #20c997;
+    font-weight: 500;
 }
 
 .navbar-collapse svg {
@@ -282,7 +282,7 @@ input[type=number] {
 }
 
 .components .nav-item svg .cls-1 {
-    fill: #fff!important;
+    fill: #000!important;
 }
 
 .components .nav-item svg .cls-2 {
@@ -527,16 +527,15 @@ label {
 .close_sidebar {
     width: 100%;
     height: auto;
-    margin: 10px 10px;
-    text-align: left!important;
+    text-align: right;
     background-color: var(--white);
     border: 0;
     outline: none;
-    color: var(--btn_close_bars);
+    color: #000000;
     cursor: pointer;
     transition: 0.5s ease-in-out;
     float: left;
-    padding-top: 0px!important;
+    font-weight: 600 !IMPORTANT;
 }
 
 i#texto_button_sidebar {
@@ -760,12 +759,13 @@ select option {
 .bienvenida {
     font-family: 'Gotham';
     text-align: left!important;
-    border-bottom: 1px solid var(--sep_b_grey);
-    padding-bottom: 1em;
+    border-left: 5px solid var(--sidebar_blue);
+    margin-bottom: 2em;
 }
 
 .bienvenida h1 {
     font-size: 2em;
+    font-weight: 800;
 }
 
 .bienvenida h5 {
@@ -773,18 +773,19 @@ select option {
 }
 
 .btn_dashboard_title {
-    background-image: linear-gradient(to right, #BADA4D, #a9c255, #61B8CF, #218694);
+    background: #aedc20;
     border-radius: 5px;
-    background-size: 300%;
     height: 35px;
     border: 0;
     background-position: left;
     outline: none;
-    color: #4C7543 !important;
+    color: #226c00 !important;
     cursor: pointer;
     width: 100%;
     transition: 0.5s ease-in-out !important;
-    margin-top: 10px;
+    margin: 5px auto;
+    box-shadow: 0 0 6px #00000024;
+    font-weight: 600 !important;
 }
 
 .btn_dashboard_title:hover {
@@ -824,16 +825,22 @@ select option {
 }
 
 .card_estadisticas_destacadas h1 {
-    font-size: 1em;
-    font-weight: 300;
+    font-size: 1.4em;
+    font-weight: 700;
     font-family: 'Gotham';
     text-align: left!important;
-    border-bottom: 1px solid var(--sep_b_grey);
+    border-left: 5px solid var(--bs-teal);
     margin-bottom: 1em;
+    line-height: 1.8em;
 }
 
 .card_estadisticas_destacadas .card-title {
-    font-size: 1em;
+    font-size: 1.2em;
+    border-left: 4px solid;
+    padding-left: 5px;
+    line-height: 1.5em;
+    font-weight: 900;
+    margin-bottom: 0.2em;
 }
 
 .card_estadisticas_destacadas .card-text {
@@ -846,19 +853,43 @@ select option {
 }
 
 .cards_section_btn_dashboards {
-    margin-top: 25px!important;
-    text-align: right;
-    font-size: 0.8em!important;
+    margin-top: 60px!important;
+    font-size: 1em!important;
+    border: 1px solid #00bd856e;
+    border-radius: 5px;
+    background: transparent;
+    padding: 10px;
 }
 
 .cards_section_btn_dashboards svg {
-    width: 4em;
+    width: 5em;
     float: left;
-    margin-right: 5px;
+    line-height: 6em !important;
+    margin-right: 10px;
+    padding-right: 10px;
+    height: 5em;
+    transform: rotate(345deg);
 }
 
 .cards_section_btn_dashboards svg path {
-    fill: var(--svg_green_white);
+    fill: var(--bs-teal);
+}
+
+.card-title {
+    margin-bottom: 0px !important;
+    color: var(--black) !important;
+}
+
+.bell_notificaciones{
+    display: none;
+}
+
+.card-body {
+    /* flex: 1 1 auto; */
+    padding: 1rem 1rem;
+    /* display: flex; */
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .cards_section_btn_dashboards button {
@@ -869,7 +900,7 @@ select option {
 .card_dashboard {
     border: solid var(--anchos) #3c4043 !important;
     border-radius: 5px !important;
-    background: var(--bg_grey_c_dashboard)!important;
+    background: #fff0!important;
     color: var(--btn_close_bars);
     transition: 0.5s ease-in-out;
 }
@@ -1509,20 +1540,15 @@ table tr td {
 }
 
 .btn_green {
-    background-image: var(--green_button);
+    background: #00af4e;
     border-radius: 5px;
-    background-size: 200%;
-    height: 35px;
     border: 0;
-    background-position: left;
-    outline: none;
     color: #fff!important;
     width: auto;
-    padding-left: 1em;
-    padding-right: 1em;
     cursor: pointer;
-    transition: 1s ease-in-out!important;
-    font-weight: 300!important;
+    font-weight: 400!important;
+    font-size: 0.8em;
+    padding: 0 5px;
 }
 
 .btn_green_s {
@@ -1663,7 +1689,7 @@ table tr td {
 }
 
 .components {
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 #sidebar {
@@ -1673,9 +1699,15 @@ table tr td {
     left: 0;
     height: 100vh;
     z-index: 999;
-    background-color: var(--sidebar_left);
+    background-color: #20c997;
     transition: all 0.5s ease-in-out;
-    border-right: solid var(--anchos) var(--light_grey);
+    border-right: 1px solid var(--anchos) var(--light_grey);
+}
+
+.nav-2{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
 }
 
 .sidebar-right {
@@ -1697,13 +1729,14 @@ table tr td {
 
 .sidebar-right h4 {
     font-size: 1em;
-    color: var(--sidebar_right_green);
-    margin-top: 30px;
+    color: var(--black);
+    margin: 30px 0 6px;
+    font-weight: 900;
 }
 
 .sidebar-right a {
     font-family: 'Gotham';
-    font-weight: 300;
+    font-weight: inherit;
     color: var(--grey_sidebar);
     margin-top: 0.5em;
     font-size: 0.8em;
@@ -1715,31 +1748,30 @@ table tr td {
 }
 
 .sidebar-right ul li a:hover {
-    color: var(--green_sidebar_right_hover);
+    color: var(--bs-teal);
 }
 
 
 #sidebar ul li a {
-    font-family: 'Gotham';
-    font-weight: 300;
-    color: #fff;
-    margin-top: 0.2em;
-    font-size: 0.8em;
+    font-weight: 500;
+    color: #000;
+    margin-top: 0px;
+    font-size: 1.2em;
 }
 
 #sidebar ul li:hover {
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background-color: var(--sidebar_hover);
+    background-color: #ffffff;
 }
 
 #sidebar ul li svg {
     width: 1em;
     float: left;
-    margin-left: 15px;
-    margin-right: 10px;
+    margin-left: 10px;
+    margin-right: 6px;
     vertical-align: middle;
-    margin-top: 0.5em;
+    margin-top: 0px;
 }
 
 #sidebar ul li:hover>svg path {
@@ -1850,13 +1882,14 @@ table tr td {
 
 .card.card_news {
     margin: 0em !important;
-    border: 1px var(--sep_b_grey) solid!important;
-    background-color: var(--white)!important;
+    border: 1px #f2f2f2 solid!important;
+    background-color: #fff0!important;
+    box-shadow: 0 0 10px #00000024;
 }
 
 .card.card_news .card-body .card-title {
     font-size: 1em!important;
-    font-weight: 300!important;
+    font-weight: 500!important;
 }
 
 .card.card_news .card-body .card-text {
@@ -2105,10 +2138,10 @@ input {
     font-size: 1.5em;
 }
 
-.card.card_dashboard.col-4.p-0.mb-2.mb-2{
-    border-radius: 5px!important;
-    border-color: var(--green)!important;
-    
+.card.card_dashboard.col-4.p-0.mb-2.mb-2 {
+    padding: 5px !important;
+    border: 0px var(--green)!important;
+    border-radius: 0px !important;
 }
 
 

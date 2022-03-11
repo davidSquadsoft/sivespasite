@@ -56,13 +56,27 @@
                                                 <td><label for="Número Identificación">2.2 Número Identificación</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="date" name="FEC_NOT" class="form-control" value="<%= fechaActual %>"></td>
-                                                <td><select name="ID_TIP_IDE" id="options" class="form-control">
+                                                <td><input type="date" name="FEC_NOT" class="form-control" value="<%= fechaActual %>"  data-bs-toggle="tooltip"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Fecha en la que se dio el último consumo de SPA, calculada por el sistema según fecha de Inicio de síntomas."></td>
+                                                <td><select name="ID_TIP_IDE" id="options" class="form-control"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tipo de documento de identificación del paciente que está siendo notificado.">
                                                     <% tipo_ide.forEach((tipoide)=> { %>
                                                         <option value="<%= tipoide.ID_RL_TIP_IDE %>"><%=tipoide.DESC %></option>
                                                     <%})%>
                                                 </select></td>
-                                                <td><input type="text" name="NUM_IDE" class="form-control" required></td>
+                                                <td><input type="text" name="NUM_IDE" class="form-control" required onkeydown="return/[a-z0-9]/i.test(event.key)"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Número de documento de identificación del paciente que está siendo notificado. 
+                                                    La longitud de los caracteres del número de identificación debe ser consistente con el tipo de documento de identificación:
+                                                    -CN: 9 dígitos
+                                                    -RC: 11 dígitos
+                                                    -TI: 11 dígitos
+                                                    -CC: 10 dígitos
+                                                    -MS: Menor sin identificación: 12 dígitos. Ingrese el documento de la madre con el consecutivo respectivo al número de nacimiento.
+                                                    -AS: Adulto sin identificación: 10 dígitos. Utilice el código del Departamento + código de Municipio y el consecutivo definido por el Entidad Territorial o UPGD.
+                                                    -CE: 6 dígitos
+                                                    -PA: 16 dígitos
+                                                    -PE: 15 dígitos
+                                                    -CD: 11 digitos
+                                                    -SC: 9 digitos
+                                                    -DE: 16 digitos
+                                                    -SI: Utilice el código del Departamento + código de Municipio y el consecutivo definido por el Entidad Territorial o UPGD/dejar vacío" ></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -73,31 +87,34 @@
                                                 <td><label for="Segundo Apellido">2.6 Segundo Apellido</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="PRI_NOM" class="form-control" required ></td>
-                                                <td><input type="text" name="SEG_NOM" class="form-control" required></td>
-                                                <td><input type="text" name="PRI_APE" class="form-control" required></td>
-                                                <td><input type="text" name="SEG_APE" class="form-control" required></td>
+                                                <td><input onkeydown="return/[a-z ]/i.test(event.key)" type="text" name="PRI_NOM" class="form-control" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Primer nombre del paciente, textual al que tienen el documento de identificación.
+                                                    Para los nombres compuestos, se tomará como primer nombre el primer nombre del nombre compuesto y como segundo nombre el complemento, igualmente para el caso de los apellidos compuestos." ></td>
+                                                <td><input onkeydown="return/[a-z ]/i.test(event.key)"type="text" name="SEG_NOM" class="form-control" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Segundo nombre del paciente, textual al documento de identificación"></td>
+                                                <td><input onkeydown="return/[a-z ]/i.test(event.key)"type="text" name="PRI_APE" class="form-control" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Primer apellido del paciente, textual al documento de identificación"></td>
+                                                <td><input onkeydown="return/[a-z ]/i.test(event.key)"type="text" name="SEG_APE" class="form-control" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Segundo apellido del paciente, textual al documento de identificación"></td>
                                             </tr>
                                         </table>
                                         <table>
                                             <tr>
-                                                <td><label for="Telefono Paciente">2.7 Telefono Paciente</label></td>
+                                                <td><label for="Telefono Paciente">2.7 Teléfono Paciente</label></td>
                                                 <td><label for="Fecha de Nacimiento">2.8 Fecha de Nacimiento</label></td>
                                                 <td><label for="Edad">2.9 Edad</label></td>
                                                 <td><label for="Sexo">2.10 Sexo</label></td>
                                                 <td><label for="Nacionalidad">2.11 Nacionalidad</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="TELEFONO" id="" class="form-control" required></td>
-                                                <td><input type="date" name="FECHA_NTO"  class="form-control" required></td>
-                                                <td><input type="text" name="EDAD" id="" class="form-control" required></td>
-                                                <td><select name="ID_SEXO" id="options" class="form-control">
+                                                <td><input onkeypress="fncInputNumericValuesOnly()" type="text" name="TELEFONO" id="" class="form-control" required  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Número telefónico (fijo o celular) donde pueda ubicarse al paciente. Es necesario anteceder el número
+                                                    indicativo del departamento o distrito, ejemplo, para marcar a Bogotá, (1) 2302162.
+                                                    Tenga en cuenta que el diligenciamiento correcto de esta variable permitira contactar al paciente en caso de ser requerido."></td>
+                                                <td><input type="date" name="FECHA_NTO"  class="form-control" required   data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Fecha de nacimiento del paciente, según el documento de identificación, en formato día-mes-año "></td>
+                                                <td><input onkeypress="fncInputNumericValuesOnly()" type="text" name="EDAD" id="" class="form-control" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Edad del paciente en años cumplidos."></td>
+                                                <td><select name="ID_SEXO" id="options" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Sexo del paciente, según el documento de identificación.">
                                                     <% sexo.forEach((tiposexo)=> { %>
                                                         <option value="<%= tiposexo.ID_SEXO %>"><%=tiposexo.DESC%></option>
                                                 
                                                     <%})%>  
                                                 </select></td>
-                                                <td><input name="ID_RL_NACIONALIDAD" id="" class="form-control" list="nacion" >
+                                                <td><input name="ID_RL_NACIONALIDAD" id="" class="form-control" list="nacion" onkeydown="return/[a-z ]/i.test(event.key)" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Seleccione el país correspondiente a la nacionalidad según la lista establecida.">
                                          
                                                         
                                                         <datalist id="nacion">
@@ -117,7 +134,7 @@
                                             <tr>
                                                 <p class="textos_black">Busca por nombre de lugar"</p>
                                               
-                                                    <input type="text" name="ID_RL_DIVIPOLA" class="form-control"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia"required >
+                                                    <input type="text" name="ID_RL_DIVIPOLA" class="form-control"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia"required onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Municipio donde ocurrió el consumo de SPA">
                                                     <datalist id="listadoocurrencia">
                                                         <% ocurrencia.forEach((listaocurrencia)=> { %>
                                                             <option class="text-lowercase" value="<%= listaocurrencia.CODCENTROPOBLADO %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
@@ -136,7 +153,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input name="CIUO88" id="" class="form-control" list="profesion" required >
+                                                    <input name="CIUO88" id="" class="form-control" list="profesion" required onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Ocupación principal de paciente." >
                                                     <datalist id="profesion">
                                                         <% prof.forEach((profesion)=> { %>
                                                         <option  class="text-lowercase" value="<%= profesion.ID_OCUPACIONES %>" > <%= profesion.TITULO_08 %></option>
@@ -144,7 +161,13 @@
                                                     </datalist>
                                                 </td>
                                                 <td>
-                                                    <select name="id_rl_tip_ss" id="" class="form-select" >
+                                                    <select name="id_rl_tip_ss" id="" class="form-select" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Régimen de afiliación al sistema general de seguridad social en salud, en el que se encuentra el caso que está siendo notificado.
+                                                    P= Excepción: afiliados al Fondo Nacional de prestaciones Sociales del magisterio, de servidores públicos de Ecopetrol así como los servidores públicos de universidades públicas
+                                                    C= Contributivo: personas vinculadas a través de contrato de trabajo, los servidores públicos, los pensionados y jubilados y los trabajadores independientes con capacidad de pago, que hacen un aporte mensual (cotización) al sistema de salud.
+                                                    E= Especial: afiliados a la Policía Nacional, Fuerzas Militares, Armada, Fuerza Aérea. 
+                                                    S= Subsidiado: población sin capacidad de pago, que tiene acceso a los servicios de salud a través de un subsidio que ofrece el Estado.
+                                                    N= No asegurado
+                                                    I= Indeterminado/ pendiente: esta opción debe ser utilizada exclusivamente para ajuste por las EAPB, cuando el caso no corresponde a esta y requiere verificación." >
                                                  
                                                         <% regimen.forEach((lregimen)=> { %>
                                                         <option  class="text-lowercase" value="<%= lregimen.id_rl_tip_ss %>" > <%= lregimen.DESCRIP %></option>
@@ -152,10 +175,11 @@
                                                     </select>
                                                
                                                 </td>
-                                                <td><input type="text" name="COD_ASE" id="" class="form-control" list="codadmSalud" required >
+                                                <td><input type="text" name="COD_ASE" id="" class="form-control" list="codadmSalud" required onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Código de la Empresa Aseguradora de Planes de Beneficios a la que se encuentra afiliado el paciente.
+                                                    Se consideran como EAPB/EPS, las Entidades Promotoras de Salud del Régimen Contributivo y del Régimen Subsidiado, Entidades Adaptadas y Empresas de Medicina Prepagada; sin embargo, prima la EAPB primaria (Plan Obligatorio de Salud), por lo cual deberá almacenar esta en el campo." >
                                                     <datalist id="codadmSalud">
                                                         <% listaADMSALUD.forEach((ladmsalud)=> { %>
-                                                        <option  class="text-lowercase" value="<%= ladmsalud.CODIGOHABILITACION %>" > <%= ladmsalud.NOMBRE %></option>
+                                                        <option  class="text-lowercase" value="<%= ladmsalud.id %>" > <%= ladmsalud.eps_nom %></option>
                                                         <%})%>  
                                                     </datalist>
                                                 </td>
@@ -168,14 +192,28 @@
                                                 <td><label for="Estrato socioeconómico">2.25 Estrato socioeconómico</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="rl_per_ind" id="" class="form-control" >
+                                                <td><select name="rl_per_ind" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="La pertenencia étnica se define como patrimonio cultural compartido por un grupo de personas, las definiciones para cada uno de los grupos étnicos son*:
+                                                    Indígena: persona de ascendencia amerindia que comparten sentimientos de identificación con su p​asado aborigen, manteniendo rasgos y valores propios de su cultura tradicional, así como formas de organización y control social propios. 
+                                                    Si diligencia esta opción deberá elegir el grupo étnico al que pertenece.
+                                                    Rom, Gitano: Son comunidades que tienen una identidad étnica y cultural propia; se caracterizan por una tradición nómada, y tienen su propio idioma que es el romanés.
+                                                    Raizal: Población ubicada en el Archipiélago de San Andrés, Providencia y Santa Catalina, con raíces culturales afroanglo-antillanas, cuyos integrantes tienen rasgos socioculturales y lingüísticos claramente diferenciados del resto de la población afrocolombiana.
+                                                    Palenquero: Población hubicada en el municipio de ​San Basilio de Palenque, departamento de Bolívar, donde se habla el palenquero, lenguaje criollo.
+                                                    Negro, mulato, afro colombiano: persona de ascendencia afrocolombiana que poseen una cultura propia, y tienen ​sus propias tradiciones y costumbre d​entro de la relación campo-poblado.
+                                                    Otro: Si no se identifica dentro de las categorias anteriores, seleccione la opción 6=Otro.
+                                                    Tenga en cuenta que esta variable se diligencia con base a lo que el paciente manifiesta, mas no a la percepción de quien está diligenciando la ficha.">
                                                     <% etnias.forEach((letnias)=> { %>
                                                         <option  class="text-lowercase" value="<%= letnias.id_rl_per_ind %>" <% if(letnias.id_rl_per_ind=8){ %>selected="selected" <% }%> ><%= letnias.DESC %></option>
                                                         <%})%> 
 
                                                 </select></td>
-                                                <td><input type="text" name="NOM_GRUPO" id="" class="form-control"></td>
-                                                <td><select name="ESTRATO" id="" class="form-control"  >
+                                                <td><input type="text" name="NOM_GRUPO" id="" class="form-control" onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Nombre del grupo índigena de pertenencia" ></td>
+                                                <td><select name="ESTRATO" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Estrato socio-económico donde está ubicada la vivienda del paciente, estos son:
+                                                    1. Bajo-bajo
+                                                    2. Bajo
+                                                    3. Medio-bajo
+                                                    4. Medio
+                                                    5. Medio-alto 
+                                                    6. Alto "  >
                                                     <option value="1">Estrato 1</option>
                                                     <option value="2">Estrato 2</option>
                                                     <option value="3">Estrato 3</option>
@@ -187,27 +225,27 @@
                                         </table>
                                         <table class="poblacion">
                                             <tr>
-                                                <label for="Grupo Poblacional - Discapacitados">2.26 Grupo Poblacional a los que pertenece</label>
+                                                <label for="Grupo Poblacional">2.26 Grupo Poblacional a los que pertenece</label>
                                             </tr>
                                             <tr>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpdes"><label for="Grupo Poblacional - Desplazados">Desplazados</label></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpmigr"><label for="Grupo Poblacional - Migrantes">Migrantes</label></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpcar"><label for="Grupo Poblacional - Carcelarios">Carcelarios</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpdes"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Desplazados: Personas o grupos de personas que han sido forzadas u obligadas a abandonar sus hogares o lugares de residencia habitual, en particular como resultado de o para evitar los efectos del conflicto armado, situaciones de violencia generalizada, violaciones de derechos humanos o desastres naturales o causados por el hombre, y que no han cruzado fronteras reconocidas internacionalmente” (Naciones Unidas, documento E/CN.4/1992/23)."><label for="Grupo Poblacional - Desplazados">Desplazados</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpmigr" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Migrantes: personas que se desplazan o se han desplazado a través de una frontera internacional o dentro de un país, fuera de su lugar habitual de residencia independientemente de: 1) su situación jurídica; 2) el carácter voluntario o involuntario del desplazamiento; 3) las causas del desplazamiento; o 4) la duración de su estancia (OIM)."><label for="Grupo Poblacional - Migrantes">Migrantes</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpcar" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Carcelarios: Personas que se encuentran detenidas privadas de la libertad en algún establecimiento de reclusión de orden nacional."><label for="Grupo Poblacional - Carcelarios">Carcelarios</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpges"><label for="Grupo Poblacional - Gestantes">Gestantes</label></td>
-                                                <td><input name="SEM_GES" id="" class="form-control" placeholder="Semanas de Gestación" style="width:80%!important"></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpindi"><label for="Grupo Poblacional - Habitante de calle">Habitante de calle</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpges" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Gestantes: Mujeres embarazadas"><label for="Grupo Poblacional - Gestantes">Gestantes</label></td>
+                                                <td><input onkeypress="fncInputNumericValuesOnly()" name="SEM_GES" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Semana de gestación de la paciente al momento de la ocurrencia del caso. de no estar gestando el campo puede estar en blanco"placeholder="Semanas de Gestación" style="width:80%!important"></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpindi" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Habitantes de calle: Son aquellas personas que hacen de la calle su lugar de habitación, donde satisfacen todas sus necesidades, (Barrios, Góngora y Suárez, 2006) ya sea de forma permanente o transitoria (Ley 1641 de 2013), es decir, desarrollan todas las dimensiones de su vida en el espacio público (actividades de su vida íntima y social (MSPS, 2017)."><label for="Grupo Poblacional - Habitante de calle">Habitante de calle</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpicbfs"><label for="Grupo Poblacional - Población infantil a cargo del ICBF ">Población infantil a cargo del ICBF</label></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpmc"><label for="Grupo Poblacional - Madres Comunitarias">Madres Comunitarias</label></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpdesmo"><label for="Grupo Poblacional - Desmovilizados">Desmovilizados</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpicbfs" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Población infantil a cargo del ICBF: Población menor de edad a cargo del ICBF."><label for="Grupo Poblacional - Población infantil a cargo del ICBF ">Población infantil a cargo del ICBF</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpmc" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Madres/Padres comunitarios: Las madres o padres comunitarios son aquellos agentes educativos comunitarios responsables del cuidado de los niños y las niñas de primera infancia del programa de Hogares Comunitarios de Bienestar."><label for="Grupo Poblacional - Madres Comunitarias">Madres Comunitarias</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpdesmo" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Desmovilizados: Aquellos que por decisión individual abandonen voluntariamente sus actividades como miembros de organizaciones armadas al margen de la ley, esto es grupos guerrilleros y de autodefensa, y se entreguen a las autoridades de la República (Decreto 128 de 2003)"><label for="Grupo Poblacional - Desmovilizados">Desmovilizados</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gppsi"><label for="Grupo Poblacional - Población en centros psiquiátricos">Centros psiquiátricos</label></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpvicvio"><label for="Grupo Poblacional - Víctima de violencia armada">Víctima de violencia armada</label></td>
-                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpotro"><label for="Grupo Poblacional - Otros">Otros</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gppsi" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Centros psiquiátricos: Población que se encuentra en el servicio de atención con internación en salud mental en una Institución Prestadoras de Servicios de Salud (IPS)."><label for="Grupo Poblacional - Población en centros psiquiátricos">Centros psiquiátricos</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpvicvio" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Víctimas de violencia armada: aquellas personas que individual o colectivamente hayan sufrido un daño por hechos ocurridos a partir del 1º de enero de 1985, como consecuencia de infracciones al Derecho Internacional Humanitario o de violaciones graves y manifiestas a las normas internacionales de Derechos Humanos, ocurridas con ocasión del conflicto armado interno. También son víctimas el cónyuge, compañero o compañera permanente, parejas del mismo sexo y familiar en primer grado de consanguinidad, primero civil de la víctima directa, cuando a esta se le hubiere dado muerte o estuviere desaparecida. A falta de estas, lo serán los que se encuentren en el segundo grado de consanguinidad ascendente. De la misma forma, se consideran víctimas las personas que hayan sufrido un daño al intervenir para asistir a la víctima en peligro o para prevenir la victimización."><label for="Grupo Poblacional - Víctima de violencia armada">Víctima de violencia armada</label></td>
+                                                <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="gpotro" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Otros grupos poblacionales: No pertenece a alguno de los grupos poblacionales anteriormente señalados."><label for="Grupo Poblacional - Otros">Otros</label></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -217,18 +255,22 @@
                                                 <td><label for="Nivel de escolaridad terminado">2.29 Nivel de escolaridad terminado</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="GENERO" id="" class="form-control"  >
+                                                <td><select name="GENERO" id="" class="form-control"data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Orientación sexual: 
+                                                    Patrón de atracción sexual, erótica, emocional o amorosa a un determinado grupo de personas definidas por su sexo (DANE)
+                                                    1 = Bisexual: Persona cuya atracción afectiva, erótica o sexual se dirige o materializa con personas de ambos sexos. 
+                                                    2 =  Heterosexual: Persona cuya atracción afectiva, erótica o sexual se dirige hacia personas de sexo distinto al suyo. 
+                                                    3 = Homosexual: Persona cuya atracción afectiva, erótica o sexual se dirige hacia personas de su mismo sexo" >
                                                     <% identidadG.forEach((lidentidadg)=> { %>
                                                         <option  class="text-lowercase" value="<%= lidentidadg.ID_iden_sexual %>" > <%= lidentidadg.DESC %></option>
                                                         <%})%> 
                                                 </select></td>
-                                                <td><select name="EST_CIV" id="" class="form-control"  >
+                                                <td><select name="EST_CIV" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Estado civil del paciente corresponde a la situación personal en que se encuentra el paciente en relación a otra, con quien se crean lazos jurídicamente reconocidos sin que sea su pariente, constituyendo con ella una institución familiar, y adquiriendo derechos y deberes al respecto. " >
                                                     <% estadoCivil.forEach((lestadoCivil)=> { %>
                                                         <option  class="text-lowercase" value="<%= lestadoCivil.ID_EST_CIV %>" > <%= lestadoCivil.DESCMASC %>/<%= lestadoCivil.DESCFEME %></option>
                                                         <%})%> 
                                                     
                                                 </select></td>
-                                                <td><select name="NIV_ESC_TER" id="" class="form-control"  >
+                                                <td><select name="NIV_ESC_TER" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Seleccione de acuerdo al último año académico cursado y aprobado." >
                                                     <% nivelescolaridad.forEach((lnivelescolaridad)=> { %>
                                                         <option  class="text-lowercase" value="<%= lnivelescolaridad.RL_NIV_ESC_TER %>" > <%= lnivelescolaridad.DESC%></option>
                                                         <%})%> 
@@ -251,7 +293,12 @@
                                                 <td><label for="Fuente">3.1 Fuente</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="ID_RL_FUENTE" id="" class="form-control" >
+                                                <td><select name="ID_RL_FUENTE" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Fuente de la notificación lo cual influye en el análisis de datos y en las acciones de vigilancia y control, las posibles fuentes son: 
+                                                    1 = Notificación rutinaria: reporte de los casos identificados en las UPGD y UI, a través de las fichas de notificación individual.
+                                                    2. Búsqueda Activa Institucional: búsqueda en los Registros Individuales de Prestación de Servicios de Salud (RIPS) e historia clínica
+                                                    3. Vigilancia intesificada: los organismos, instituciones, funcionarios y la comunidad refuerzan los mecanismos de captura de casos, utilizando  definiciones de caso muy amplias que permiten detectar los eventos precozmente o descartar aquellos que no son.
+                                                    4. Búsqueda Activa Comunitaria: Identificación en la comunidad de casos a partir de encuestas casa a casa a líderes comunitarios, residentes, personal de las guarderías, población escolar, entre otros, en este caso a través de los comités de vigilancia epidemiológica comunitarios 
+                                                    5. Investigaciones: son estudios de prevalencia programados y dirigidos a la población general o a grupos específicos.">
                                                     <% fuente.forEach((lfuente)=> { %>
                                                         <option  class="text-lowercase" value="<%= lfuente.id_db_fuente %>" > <%= lfuente.DESC%></option>
                                                         <%})%> 
@@ -265,15 +312,16 @@
                                             <tr><label for="Código del País de Residencia del paciente">3.2 País</label>
                                             </tr>
                                             <tr>
-                                                <input name="ID_RL_NACIONALIDAD" id="" class="form-control" list="nacion" required>
+                                                <input name="ID_RL_NACIONALIDAD" id="" class="form-control" list="nacion" required onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Nombre del país donde reside el paciente al momento de la notificación. 
+                                                Nota: Para definir residencia acogemos el concepto de la Ley 1607 de 2012 que establece que una persona es residente de algun lugar geográfico si permanece continua o discontinuamente en el país por más de ciento ochenta y tres (183) días calendario incluyendo dias de entrada y salida.">
                                                 <datalist id="nacion">
                                                     <% pais.forEach((listpais)=> { %>
                                                     <option  class="text-lowercase" value="<%= listpais.ID_RL_PAIS_DIAN %>" > <%= listpais.DESC %></option>
                                                     <%})%>  
                                                 </datalist>
                                             </tr>
-                                            <tr >
-                                                <input type="text" name="ID_RL_DIVIPOLA" class="form-control"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required >
+                                            <tr ><label for="Código del País de Residencia del paciente">3.2.1 Municipio</label>
+                                                <input type="text" name="ID_RL_DIVIPOLA" class="form-control"  placeholder="Buscar por Barrio o Vereda o Centro poblado"  list="listadoocurrencia" required onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Nombre del municipio donde reside el paciente al momento de la notificación. ">
                                                 <datalist id="listadoocurrencia">
                                                     <% ocurrencia.forEach((listaocurrencia)=> { %>
                                                         <option class="text-lowercase" value="<%= listaocurrencia.CODMUNIC %>" > <%= listaocurrencia.NOMMUNIPIO %>, <%= listaocurrencia.NOMCENTRPOBLADO %>, <%= listaocurrencia.NOMCENTRPOBLADO %> </option>
@@ -281,8 +329,8 @@
 
                                                 </datalist>
                                             </tr>
-                                            <tr >
-                                                <input type="text" name="DIR_RES" class="form-control"  placeholder="Dirección de residencia" required>
+                                            <tr ><label for="Código del País de Residencia del paciente">3.2.2 Direccion de residencia</label>
+                                                <input type="text" name="DIR_RES" class="form-control"  placeholder="Dirección de residencia" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Dirección donde se encuentra ubicada la residencia del paciente al momento de la notificación.">
                                            
                                             </tr>
                                         </table>
@@ -295,14 +343,20 @@
                                                 <td><label for="Hospitalizado">3.7 Hospitalizado</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="date" name="FEC_CON" id="" class="form-control" value="<%= fechaActual %>" ></td>
-                                                <td><input type="date" name="INI_SIN" id="" class="form-control" required ></td>
-                                                <td><select name="ID_TIP_CAS" class="form-control"  id="" >
+                                                <td><input type="date" name="FEC_CON" id="" class="form-control" value="<%= fechaActual %>" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Fecha en la que consultó el paciente por el evento notificado o fue identificado el caso.
+                                                    Formato día/mes/año." ></td>
+                                                <td><input type="date" name="INI_SIN" id="" class="form-control" required data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Corresponde a la fecha de último consumo SPA.
+                                                    Formato día/mes/año."></td>
+                                                <td><select name="ID_TIP_CAS" class="form-control"  id="" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Este evento tiene una clasificación de caso específica, la cual es acorde a lo descrito en el protocolo, con tres opciones:
+                                                    1 = Sospechoso: Persona que consume cualquier sustancia psicoactiva en el último mes, según Lista SPA.
+                                                    3 = Confirmado por Laboratorio: Caso confirmado por clínica que por análisis de laboratorio se comprueba la presencia de la(s) sustancia(s) psicoactiva(s) en alguna de las muestras biológicas del paciente.
+                                                    4 = Confirmado por Clínica: Persona que consulta a los servicios de salud con un diagnóstico principal o relacionado con consumo de SPA, que requiera manejo médico, ambulatorio u hospitalario o desencadene la muerte. 
+                                                    Para efectos de la vigilancia se considerarán la codificación de diagnósticos según clasificación internacional de enfermedades CIE-10 relacionados con consumo de SPA (según lista Diagnósticos CIE-10 consumo de SPA)">
                                                     <% tipocaso.forEach((ltipocaso)=> { %>
                                                         <option class="text-lowercase" value="<%= ltipocaso.ID_RL_TIP_CAS %>" > <%= ltipocaso.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><select name="PAC_HOS" id="" class="form-control" >
+                                                <td><select name="PAC_HOS" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Hospitalización debida al evento que se está notificando.">
                                                     <OPTION value ="1">Sí </OPTION>
                                                     <OPTION value ="2">No </OPTION>
                                                 </select></td>
@@ -317,15 +371,19 @@
                                                 <td><label for="Causa básica de defunción">3.12 Causa básica de defunción</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="date" name="FEC_HOS" id="" class="form-control" ></td>
-                                                <td><select name="ID_CON_FIN" id="" class="form-control">
+                                                <td><input type="date" name="FEC_HOS" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Fecha en la que el paciente fue hospitalizado como consecuencia del evento que se está notificando, en caso de no encontrarse hospitalizado este campo puede dejarse en blanco "></td>
+                                                <td><select name="ID_CON_FIN" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="0 = Solo aplica cuando se capte el caso por BAI y se desconoce el dato.
+                                                    1 = Vivo
+                                                    2 = Muerto
+                                                    Tenga en cuenta que es importante establecer si la muerte fue debida al consumo de SPA para diligenciar esta variable.">
                                                     <OPTION value ="0">No sabe, no responde </OPTION>
                                                     <OPTION value ="1">Vivo  </OPTION>
                                                     <OPTION value ="2">Muerto </OPTION>
                                                 </select></td>
-                                                <td><input type="date" name="FEC_DEF" id="" class="form-control" ></td>
-                                                <td><input type="text" name="CER_DEF" id="" class="form-control" ></td>
-                                                <td><input type="text" name="ID_RL_CIE_10" class="form-control" list="causadefunciondata" >
+                                                <td><input type="date" name="FEC_DEF" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Fecha en la que el paciente fallece como consecuencia del consumo de SPA. 
+                                                    Se debe diligenciar si en la variable 3.10 Condición final es 2 = Muerto."></td>
+                                                <td><input type="text" name="CER_DEF" id="" class="form-control"data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Número consecutivo que aparece en la parte superior derecha del certificado de defunción."></td>
+                                                <td><input type="text" name="ID_RL_CIE_10" class="form-control" list="causadefunciondata" onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Diagnóstico CIE X, que ocasionó la muerte del caso y que está relacionado con el consumo de SPA.">
                                                     <datalist id="causadefunciondata">
                                                         <% causadefuncion.forEach((lcausadefuncion)=> { %>
                                                             <option class="text-lowercase" value="<%= lcausadefuncion.ID_CIE_10 %>" > <%= lcausadefuncion.DESC4CHART %></option>
@@ -340,7 +398,7 @@
                                                 <td><label for="Teléfono del profesional que diligencia la ficha">3.14 Teléfono del profesional que diligencia la ficha</label></td>
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="NOM_DIL_FI" id="" class="form-control" value="<%= user.NOMBRE %> <%= user.APELLIDO %>" readonly="readonly"></td>
+                                                <td><input type="text" name="NOM_DIL_FI" id="" class="form-control" value="<%= user.NOMBRE %> <%= user.APELLIDO %>" readonly="readonly" ></td>
                                                 <td><input type="text" name="TEL_DIL_FI" id="" class="form-control" value="<%= user.TEL %>"  readonly="readonly"></td>
                                             </tr>
                                         </table>
@@ -362,12 +420,24 @@
                                                 <td><label for="Fecha del ajuste">4.2 Fecha del ajuste</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="ID_RL_AJUSTE" class="form-control"  id="">
+                                                <td><select name="ID_RL_AJUSTE" class="form-control"  id="" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Clasificación final del caso, posterior de obtener resultados de laboratorio o análisis del caso. 
+                                                    Corresponde a la clasificación definitiva del caso.
+                                                    0 = No aplica (es el valor por defecto del sistema si el caso es nuevo o no ha sido ajustado)
+                                                    3 = Confirmado por laboratorio
+                                                    4 = Confirmado por clínica
+                                                    6= Descartado: puede ser por criterio epidemiológico, por laboratorio, porque no cumple la condición del caso, etc.
+                                                    7 = Otra actualización: quiere decir que se puede modificar cualquier campo excepto código de evento, Upgd, numero
+                                                    de id, fecha de notificación. Esto, después de haber notificado el caso.
+                                                    D = Error de digitación por las siguientes razones:
+                                                    - el evento notificado es errado
+                                                    - cuando al menos una de las variables de la llave primaria (año, semana epidemiológica, código de
+                                                    prestador, código sub-índice del prestador, tipo de identificación y número de identificación) fueron mal digitadas, ya que
+                                                    es posible modificarlas una vez hayan sido notificadas.">
                                                     <% ajustecaso.forEach((lajustecaso)=> { %>
                                                         <option class="text-lowercase" value="<%= lajustecaso.COD_INT %>" > <%= lajustecaso.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input type="date" name="" id="" class="form-control"  value="<%= factual %>" readonly="readonly"></td>
+                                                <td><input type="date" name="" id="" class="form-control"  value="<%= factual %>" readonly="readonly" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Corresponde a la fecha en la que se ajustó la clasificación inicial del caso. Fomato día/mes/año."></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -392,8 +462,14 @@
 
                                             </tr>
                                             <tr>
-                                                <td><input type="text" name="INI_EDAD" id="" class="form-control" required></td>
-                                                <td><select name="INI_ENTORNO" id="" class="form-control" >
+                                                <td><input type="text" name="INI_EDAD" id="" class="form-control" required onkeypress="fncInputNumericValuesOnly()" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Edad en que consumió por primera vez alguna sustancia, si no recuerda la edad exacta coloque una edad aproximada, pero si no lo recuerda definitivamente coloque 99"></td>
+                                                <td><select name="INI_ENTORNO" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Entorno en que consumió por primera vez alguna sustancia: Los entornos son escenarios de la vida en los cuales los sujetos se desarrollan, construyen su vida subjetiva, sus vínculos y relaciones con la vida social, histórica, cultural y política a la que pertenecen (Resolución 089/2019):
+                                                    1. Hogar: Es el escenario de refugio, acogida y afecto. Constituye un espacio de residencia y convivencia permanente, es fundamental para el desarrollo y establecimiento de vínculos y relaciones sociales de base para la vida social, cultural y política de las personas y las familias. El hogar incluye el refugio físico como la vivienda donde residen personas, familias o grupos humanos, el ambiente físico y social inmediatamente exterior a la vivienda
+                                                    2. Educativo: también denominado Educativo o académico: Corresponde a escenarios de vida cotidiana donde la comunidad 
+                                                    educativa desarrolla capacidades a través de procesos de enseñanza/aprendizaje contextualizados, que permiten la construcción social y reproducción de la cultura, el pensamiento, la afectividad, los hábitos y estilos de vida, que le brindarán mejores formas de vivir y relacionarse consigo mismo, con los demás y con el ambiente. La comunidad educativa está constituida por estudiantes (niños, niñas, adolescentes, jóvenes, adultos y personas mayores), padres de familia, directivos, educadores, administradores escolares, universitarios y los escenarios de educación formal (preescolar, básica, media y superior), de educación para el trabajo y el desarrollo humano (capacitación para el desempeño artesanal, artístico, recreacional, ocupacional y técnico) y otros donde se promuevan o construyan conocimientos.
+                                                    3. Laboral: comprende los escenarios donde las personas e individuos se organizan para producir bienes y servicios en condiciones que promueven y protegen la salud brindando bienestar a los trabajadores, sus familias y comunidades, con participación en la potenciación de factores protectores y en el control y mitigación de los factores adversos a su salud. Comprende los escenarios laborales formales e informales.
+                                                    4. Comunitario: comprende los espacios donde se da la dinámica social de las personas y los colectivos dispuestos en grupos de base, redes sociales y comunitarias organizadas de manera autónoma y solidaria, las cuales pueden compartir características, objetivos comunes y agruparse para desarrollar actividades y representarlas ante instancias nacionales y/o territoriales; también 
+                                                    hacen parte los espacios conformados por elementos constitutivos naturales, artificiales y elementos complementarios, compuestos por espacios abiertos, caracterizados por el libre acceso (plazas, parques, vías entre otros) y de espacios a los que la comunidad atribuye valor político, histórico, cultural o sagrado (bibliotecas, ludotecas, casa de cultura, museos, teatros, templos, malocas, estadios, escenarios de participación entre otros).">
                                                     <% entorno.forEach((lentorno)=> { %>
                                                         <option class="text-lowercase" value="<%= lentorno.ID_RL_INI_ENTORNO %>" > <%= lentorno.DESC %></option>
                                                         <%})%>  
@@ -413,13 +489,13 @@
                                                 <td><label for="Quien le indujo al primer consumo">5.3 ¿Quien le indujo al primer consumo?</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="INI_LUGAR" id="" class="form-control" >
+                                                <td><select name="INI_LUGAR" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Registre el lugar donde consumió por primera vez una sustancia psicoactiva">
                                                     <% inilugar.forEach((linilugar)=> { %>
                                                         <option class="text-lowercase" value="<%= linilugar.ID_RL_INI_LUGAR %>" > <%= linilugar.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input name="INI_LUGAR_OTRO" id="" class="form-control"></td>
-                                                <td><select name="INI_PERSONA" id="" class="form-control">
+                                                <td><input name="INI_LUGAR_OTRO" id="" class="form-control" onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Otro lugar de primer consumo, que no se encuentre en la lista anterior"></td>
+                                                <td><select name="INI_PERSONA" id="" class="form-control"data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Persona/personas que lo indujeron al primer consumo de SPA.">
                                                     <% iniperso.forEach((lperso)=> { %>
                                                         <option class="text-lowercase" value="<%= lperso.ID_RL_INI_PER %>" > <%= lperso.DESC %></option>
                                                         <%})%>  
@@ -435,12 +511,12 @@
                                                 <td><label for="Principal motivación al primer consumo">5.4.1 Cual otra motivación al primer consumo</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="INI_MOTIVO" id="" class="form-control" >
+                                                <td><select name="INI_MOTIVO" id="" class="form-control"data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Principal situación que lo motivó al primer consumo de SPA" >
                                                     <% inimotivo.forEach((linimotivo)=> { %>
                                                         <option class="text-lowercase" value="<%= linimotivo.ID_RL_INI_MOTIV %>" > <%= linimotivo.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input  name="INI_MOTIVO_OTRA" id="" class="form-control"></td>
+                                                <td><input  name="INI_MOTIVO_OTRA" id="" class="form-control" onkeydown="return/[a-z ]/i.test(event.key)"data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Se registra solo si existe otra situación que lo motivó al primer consumo, que no se encuentre en la lista anterior."></td>
                                             </tr>
                                         </table>
                                         <table>
@@ -449,12 +525,14 @@
                                                 <td><label for="5.5.22.1 ¿Otra sustancia de inicio, cual?">5.5.22.1 ¿Otra sustancia de inicio, cual?</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="INI_SPA" id="" class="form-control" >
+                                                <td><select name="INI_SPA" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Una sustancia psicoactiva o droga es toda sustancia que introducida en el organismo, por cualquier vía de administración, produce una alteración del funcionamiento del sistema nervioso central y es susceptible de crear dependencia, ya sea psicológica, física o ambas. Las sustancias psicoactivas tienen la capacidad de modificar la conciencia, el estado de ánimo o los procesos de pensamiento de la persona que las consume (Observatorio de Drogas de Colombia, 2021).
+                                                    Seleccione la sustancia psicoactiva que consumió por primera vez en la vida, indicando solo una opción de la lista disponible, si la sustancia no se encuentra en la lista, marque la opción 22 Otra y coloque el nombre de la sustancia.
+                                                    La descripción de cada una de las sustancias psicoactivas (SPA) está definida en el Protocolo de vigilancia epidemiológica del consumo de sustancias psicoactivas en Antioquia, Anexo 10.1:">
                                                     <% spa.forEach((lspa)=> { %>
                                                         <option class="text-lowercase" value="<%= lspa.id_rl_lista_spa %>" > <%= lspa.SUSTANCIA %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input type="text" name="INI_SPA_OTRA" id="" class="form-control">
+                                                <td><input type="text" name="INI_SPA_OTRA" id="" class="form-control" onkeydown="return/[a-z ]/i.test(event.key)"data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Se registra solo si existe otra sustancia que no se encuentre en la lista anterior.">
                                                    </td>
                                             </tr>
                                         </table>
@@ -463,7 +541,7 @@
                                             <tr>
                                                 <td></td>
 
-                                                <td>6.1 ¿Cuáles sustancias consume actualmente (último mes)?(Puede seleccionar varias opciones)</td>
+                                                <td data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Puede seleccionar varias opciones. Tenga en cuenta que el paciente puede consumir una o más sustancias mencionadas, es por esto que la variable tiene múltiples opciones de respuesta.">6.1 ¿Cuáles sustancias consume actualmente (último mes)?(Puede seleccionar varias opciones)</td>
 
                                             </tr>
                                             </tr>
@@ -580,7 +658,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Cual?</td>
-                                                <td><input type="text" name="ACT_SPA_OTR_CUA" id="" class="form-control"></td>
+                                                <td><input type="text" name="ACT_SPA_OTR_CUA" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Registe el nombre de la(s) sustancia(s) que consume actualmente, que no se encuentra(n) definida(s) en la lista SPA."></td>
 
                                             </tr>
                                         </table>
@@ -588,16 +666,17 @@
                                         <table>
                                             <tr>
                                                 <td><label for="6.2 En su consumo actual (último mes), cuál es la sustancia de mayor impacto">6.2 En su consumo actual (último mes), cuál es la sustancia de mayor impacto</label></td>
-                                                <td><label for="6.2.22.1 Otra sustancia de mayor impacto, cual">6.2.2.1 Otra sustancia de mayor impacto, cuall</label></td>
+                                                <td><label for="6.2.22.1 Otra sustancia de mayor impacto, cual">6.2.2.1 Otra sustancia de mayor impacto, cual</label></td>
 
                                             </tr>
                                             <tr>
-                                                <td><select name="IMP_SPA" id="" class="form-control" >
+                                                <td><select name="IMP_SPA" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="La sustancia de mayor impacto es aquella que consume actualmente con mayor frecuencia, que más daños o problemas  le genera o por la cual consulta a los servicios de salud.
+                                                    Seleccione la sustancia de mayor impacto en su consumo actual según LISTA SPA.">
                                                     <% spa.forEach((lspa)=> { %>
                                                         <option class="text-lowercase" value="<%= lspa.id_rl_lista_spa %>" > <%= lspa.SUSTANCIA %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input name="IMP_SPA_OTRA" id="" class="form-control"></td>
+                                                <td><input name="IMP_SPA_OTRA" id="" class="form-control" onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Registre el nombre de la sustancia de mayor impacto que no se encuentra definida en la lista SPA."></td>
 
                                             </tr>
                                         </table>
@@ -613,22 +692,23 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <select name="COD_CIE10" id="" class="form-select" >
+                                                    <select name="COD_CIE10" id="" class="form-select"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Dianóstico CIE 10 asociado al consumo de SPA.
+                                                    La lista de diagnósticos CIE10 asociados a consumo de SPA está definida en el Protocolo de vigilancia epidemiológica del consumo de sustancias psicoactivas en Antioquia, Anexo 10.2 Diagnósticos CIE-10 consumo de SPA">
                                                         <% cie.forEach((lcie)=> { %>
                                                             <option class="text-lowercase" value="<%= lcie.COD_4 %>" > <%= lcie.DESC4CHART %></option>
                                                             <%})%>  
                                                     </select></td>
-                                                <td><select name="IMP_ENTORNO" id="" class="form-control" >
+                                                <td><select name="IMP_ENTORNO" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Entorno habitual de consumo actual (último mes) relacionado con la sustancia de mayor impacto">
                                                     <% entorno.forEach((lentorno)=> { %>
                                                         <option class="text-lowercase" value="<%= lentorno.ID_RL_INI_ENTORNO %>" > <%= lentorno.DESC %></option>
                                                         <%})%> 
                                                 </select></td>
-                                                <td><select name="IMP_LUGAR" id="" class="form-control" >
+                                                <td><select name="IMP_LUGAR" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Seleccione el principal lugar de consumo actual (último mes) de la sustancia de mayor impacto:">
                                                     <% inilugar.forEach((linilugar)=> { %>
                                                         <option class="text-lowercase" value="<%= linilugar.ID_RL_INI_LUGAR %>" > <%= linilugar.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><input name="IMP_LUGAR_OTRO" id="" class="form-control"></select></td>
+                                                <td><input name="IMP_LUGAR_OTRO" id="" class="form-control" onkeydown="return/[a-z ]/i.test(event.key)" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Solo se registra si existe otro lugar de consumo actual (último mes) de la sustancia de mayor impacto, que no se encuentre en la lista anterior"></td>
 
                                             </tr>
                                         </table>
@@ -639,14 +719,14 @@
 
                                             </tr>
                                             <tr>
-                                                <td><select name="IMP_FREC_USO" id="" class="form-control" >
+                                                <td><select name="IMP_FREC_USO" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Frecuencia de consumo actual de la sustancia de mayor impacto, según corresponda">
                                                     <option value="1">Algunas veces por mes</option>
                                                     <option value="2">Algunas veces por semana</option>
                                                     <option value="3">Una vez al día</option>
                                                     <option value="4">Dos a tres veces al día</option>
                                                     <option value="5">Más de tres veces al día</option>
                                                 </select></td>
-                                                <td><select name="IMP_VIA_ADM" id="" class="form-control" >
+                                                <td><select name="IMP_VIA_ADM" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Principal vía de administración de la sustancia de mayor impacto, de acuerdo al tipo de sustancia" >
                                                     <% viaadm.forEach((lviaadm)=> { %>
                                                         <option class="text-lowercase" value="<%= lviaadm.ID_RL_IMP_VIA_ADM %>" > <%= lviaadm.DESC %></option>
                                                         <%})%>  
@@ -662,21 +742,21 @@
                                                 <td><label for="¿Ha tenido relaciones sexuales sin preservativo cuando consume sustancias psicoactivas?">6.9 ¿Ha tenido relaciones sexuales sin protección cuando consume spa?</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="IMP_FR_INYECC" id="" class="form-control">
+                                                <td><select name="IMP_FR_INYECC" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Se registra si la personas manifiesta haber compartido material de la inyección al momento de consumir sustancias psicoactivas inyectables.">
+                                                    <option value="3">No aplica</option>
                                                     <option value="1">Sí</option>
                                                     <option value="2">No</option>
-                                                    <option value="3">No aplica</option>
                                                 </select></td>
-                                                <td><select name="PRO_CA" id="" class="form-control" >
+                                                <td><select name="PRO_CA" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Principal problema que le genera el consumo actual, relacionado con la sustancia de mayor impacto">
                                                     <% pripro.forEach((lpripro)=> { %>
                                                         <option class="text-lowercase" value="<%= lpripro.ID_RL_PRO_CA %>" > <%= lpripro.DESC %></option>
                                                         <%})%>  
                                                 </select></td>
-                                                <td><select name="FR_SOBRED" id="" class="form-control" >
+                                                <td><select name="FR_SOBRED" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Sobredosis en el último mes. La sobredosis hace referencia a un consumo excesivo de la sustancia de mayor impacto, que ha traído consecuencias negativas para la salud" >
                                                     <option value="1">Sí</option>
                                                     <option value="2" selected="selected">No</option>
                                                 </select></td>
-                                                <td><select name="FR_SEXUAL" id="" class="form-control" >
+                                                <td><select name="FR_SEXUAL" id="" class="form-control" data-bs-toggle="tooltip"  data-bs-placement="bottom" title="El usuario manifiesta haber tenido relaciones sexuales sin protección cuando consume spa en el último año." >
                                                     <option value="1">Sí</option>
                                                     <option value="2" selected="selected">No</option>
                                                 </select></td>
@@ -701,16 +781,16 @@
                                                 <td><label for="Ha recibido tratamiento por consumo de SPA">7.3 ¿Ha recibido tratamiento por consumo de SPA?</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="EDUC_PREV" id="" class="form-control" >
+                                                <td><select name="EDUC_PREV" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="El usuario ha recibido información o educación en sustancias psicoactivas alguna vez en la vida">
                                                     <option value="1">Sí</option>
                                                     <option value="2" selected="selected">No</option>
                                                 </select></td>
-                                                <td><select name="ID_RL_EDUC_CAL" id="" class="form-control" >
+                                                <td><select name="ID_RL_EDUC_CAL" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Calidad de la información o educación en SPA que ha recibido el usuario, desde la percepción del usuario" >
                                                     <option value="1">Baja</option>
                                                     <option value="2">Media</option>
                                                     <option value="3">Alta</option>
                                                 </select></td>
-                                                <td><select name="TTO_PREVIO" id="" class="form-control" >
+                                                <td><select name="TTO_PREVIO" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Tratamiento previo por consumo de SPA, seleccione la opción según corresponda" >
                                                     <option value="1">Sí</option>
                                                     <option value="2" selected="selected">No</option>
                                                 </select></td>
@@ -722,12 +802,12 @@
                                                 <td><label for="Cuenta con red de apoyo familiar o vincular">7.5 ¿Cuenta con red de apoyo familiar o vincular?</label></td>
                                             </tr>
                                             <tr>
-                                                <td><select name="ID_DISP_AYUDA" id="" class="form-control" >
+                                                <td><select name="ID_DISP_AYUDA" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Disposición del usuario para recibir traamiento, en caso de ser necesario" >
                                                     <option value="1">Sí</option>
                                                     <option value="2">No</option>
                                                     <option value="3">No requiere</option>
                                                 </select></td>
-                                                <td><select name="RED_APOYO" id="" class="form-control" >
+                                                <td><select name="RED_APOYO" id="" class="form-control"  data-bs-toggle="tooltip"  data-bs-placement="bottom" title="Red de apoyo familiar o vincular es el grupo de personas externas o familia que se encuentra cercano al usuario y lo apoya, para mejorar su condición de salud. Seleccione la opción según corresponda si el usuario dispone o no de esta red:" >
                                                     <option value="1">Sí</option>
                                                     <option value="2">No</option>
                                                     
@@ -738,9 +818,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn_box">
+                        <p class="text-center">Desea continuar con el tamizaje de este paciente?</p>
+                        <div class="row align-content-center d-flex">
                             
+                            <div class="col-lg-5"></div>
+                            <div class="col-lg-1 align-content-center d-flex">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tamcon" id="flexRadioDefault1" value="1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                    Si
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 align-content-center d-flex"> <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tamcon" id="flexRadioDefault2" value="0" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                No
+                                </label>
+                            </div>
+                        </div>
+                            <div class="col-lg-6"></div>
+                        </div>
+                        <div class="btn_box">
+                                             
                             <button type="button" class="btn_green align-center" onclick="validar();">guardar</button>
+                            
                         </div>
 
                         
@@ -750,8 +852,20 @@
             </div>
     </section>
 
-  
-
+    <script type="text/javascript" language="jscript">
+        function fncInputNumericValuesOnly() {
+            if (!(event.keyCode == 32 || event.keyCode == 46 || event.keyCode == 48 || event.keyCode == 49 || event.keyCode == 50 || event.keyCode == 51 || event.keyCode == 52 || event.keyCode == 53 || event.keyCode == 54 || event.keyCode == 55 || event.keyCode == 56 || event.keyCode == 57))
+            {
+                event.returnValue = false;
+            }
+        }
+  </script>
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
     <script src="/admin/scripts/validar_campos.js"></script>
 
 
